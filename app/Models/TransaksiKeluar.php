@@ -11,6 +11,7 @@ class TransaksiKeluar extends Model
 
     protected $table = 'transaksi_keluars';
     protected $fillable = [
+        'id_transaksi',
         'penerima',
         'suplier_id',
         'bahan_baku_id',

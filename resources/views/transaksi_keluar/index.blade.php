@@ -48,7 +48,7 @@
                                     <td>{{ $item->penerima }}</td>
                                     <td>{{ $item->suplier->nama }}</td>
                                     <td>{{ $item->bahanBaku->nama }}</td>
-                                    <td class="text-end">{{ $item->stok_keluar }}</td>
+                                    <td class="text-end">{{ $item->stok }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->tanggal_keluar)->format('d-m-Y') }}</td>
                                 </tr>
                             @endforeach

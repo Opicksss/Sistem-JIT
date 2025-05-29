@@ -5,29 +5,32 @@
                <img src="assets/images/logo-icon.png" class="logo-img" alt="">
            </div>
            <div class="logo-name flex-grow-1">
-               <h5 class="mb-0">{{ config('app.name') }}</h5>
+               <h5 class="mb-0">JIT</h5>
            </div>
            <div class="sidebar-close">
                <span class="material-icons-outlined">close</span>
            </div>
        </div>
+
        @php
            $user = auth()->user();
            $isAdmin = $user->role === 'admin';
 
            $allowedMenus = $isAdmin ? [] : $user->menus->pluck('name')->toArray();
        @endphp
+
        <div class="sidebar-nav">
            <!--navigation-->
            <ul class="metismenu" id="sidenav">
 
                <li class="menu-label">Menu</li>
                <li>
-                   <a href="{{ route('dashboard') }}">
+                   <a href="/">
                        <div class="parent-icon"><i class="material-icons-outlined">dashboard</i></div>
                        <div class="menu-title">Dashboard</div>
                    </a>
                </li>
+
                @if ($isAdmin || in_array('bahanBaku', $allowedMenus))
                    <li>
                        <a href="{{ route('bahanBaku.index') }}">
@@ -62,7 +65,7 @@
                @endif
                @if ($isAdmin || in_array('laporan_masuk', $allowedMenus))
                    <li>
-                       <a href="cards.html">
+                       <a href="{{ route('laporan_masuk.index') }}">
                            <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
                            <div class="menu-title">Laporan Masuk</div>
                        </a>
@@ -70,7 +73,7 @@
                @endif
                @if ($isAdmin || in_array('laporan_keluar', $allowedMenus))
                    <li>
-                       <a href="cards.html">
+                       <a href="{{ route('laporan_keluar.index') }}">
                            <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
                            <div class="menu-title">Laporan Keluar</div>
                        </a>

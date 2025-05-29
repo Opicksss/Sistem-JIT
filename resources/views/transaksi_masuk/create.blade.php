@@ -21,6 +21,10 @@
                 <form class="row g-3" action="{{ route('transaksi_masuk.store') }}" method="POST">
                     @csrf
                     <div class="col-md-12">
+                        <label for="id_transaksi" class="form-label">ID Transaksi</label>
+                        <input type="text" class="form-control" id="id_transaksi" name="id_transaksi" required>
+                    </div>
+                    <div class="col-md-12">
                         <label for="penerima" class="form-label">Penerima</label>
                         <input type="text" class="form-control" id="penerima" name="penerima" required>
                     </div>
@@ -53,7 +57,8 @@
                     <div class="col-md-12">
                         <div class="d-flex justify-content-end align-items-center gap-3">
                             <button type="submit" class="btn btn-grd-primary px-4 text-white">Simpan</button>
-                            <a href="{{ route('transaksi_masuk.index') }}" class="btn btn-grd-royal px-4 text-white">Batal</a>
+                            <a href="{{ route('transaksi_masuk.index') }}"
+                                class="btn btn-grd-royal px-4 text-white">Batal</a>
                         </div>
                     </div>
 

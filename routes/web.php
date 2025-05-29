@@ -6,6 +6,7 @@ use App\Http\Controllers\AcountController;
 use App\Http\Controllers\SuplierController;
 use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailLaporanController;
 use App\Http\Controllers\TransaksiMasukController;
 use App\Http\Controllers\TransaksiKeluarController;
 
@@ -52,6 +53,19 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('transaksi_masuk/{id}', [TransaksiMasukController::class, 'destroy'])->name('transaksi_masuk.destroy');
     });
 
+
+   Route::middleware('menuAkses:laporan_masuk')->group(function () {
+    Route::get('laporan_transaksi_masuk', [DetailLaporanController::class, 'index'])->name('laporan_masuk.index');
+    Route::get('/detail_transaksi_masuk.{id}', [DetailLaporanController::class, 'show'])->name('detail_laporan_masuk.show');
+   
+    });
+  
+   Route::middleware('menuAkses:laporan_masuk')->group(function () {
+    Route::get('laporan_transaksi_keluar', [DetailLaporanController::class, 'laporanKeluar'])->name('laporan_keluar.index');
+    Route::get('/detail_transaksi_keluar.{id}', [DetailLaporanController::class, 'showLaporanKeluar'])->name('detail_laporan_keluar.show');
+    });
+  
+  
     Route::middleware('menuAkses:transaksi_keluar')->group(function () {
         Route::get('transaksi_keluar', [TransaksiKeluarController::class, 'index'])->name('transaksi_keluar.index');
         Route::get('transaksi_keluarCreate', [TransaksiKeluarController::class, 'create'])->name('transaksi_keluar.create');
