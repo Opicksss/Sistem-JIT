@@ -13,9 +13,10 @@
        </div>
        @php
            $user = auth()->user();
-           $userMenuNames = $user->menus->pluck('name')->toArray();
-       @endphp
+           $isAdmin = $user->role === 'admin';
 
+           $allowedMenus = $isAdmin ? [] : $user->menus->pluck('name')->toArray();
+       @endphp
        <div class="sidebar-nav">
            <!--navigation-->
            <ul class="metismenu" id="sidenav">
@@ -27,86 +28,87 @@
                        <div class="menu-title">Dashboard</div>
                    </a>
                </li>
-               @if (in_array('bahanBaku', $userMenuNames))
-               <li>
-                   <a href="{{ route('bahanBaku.index') }}">
-                       <div class="parent-icon"><i class="material-icons-outlined">inventory</i></div>
-                       <div class="menu-title">Bahan Baku</div>
-                   </a>
-               </li>
+               @if ($isAdmin || in_array('bahanBaku', $allowedMenus))
+                   <li>
+                       <a href="{{ route('bahanBaku.index') }}">
+                           <div class="parent-icon"><i class="material-icons-outlined">inventory</i></div>
+                           <div class="menu-title">Bahan Baku</div>
+                       </a>
+                   </li>
                @endif
-               @if (in_array('supplier', $userMenuNames))
-               <li>
-                   <a href="{{ route('supplier.index') }}">
-                       <div class="parent-icon"><i class="material-icons-outlined">people</i></div>
-                       <div class="menu-title">Supplier</div>
-                   </a>
-               </li>
+               @if ($isAdmin || in_array('supplier', $allowedMenus))
+                   <li>
+                       <a href="{{ route('supplier.index') }}">
+                           <div class="parent-icon"><i class="material-icons-outlined">people</i></div>
+                           <div class="menu-title">Supplier</div>
+                       </a>
+                   </li>
                @endif
-               @if (in_array('transaksi_masuk', $userMenuNames))
-               <li>
-                   <a href="{{ route('transaksi_masuk.index') }}">
-                       <div class="parent-icon"><i class="material-icons-outlined">input</i></div>
-                       <div class="menu-title">Transaksi Masuk</div>
-                   </a>
-               </li>
+               @if ($isAdmin || in_array('transaksi_masuk', $allowedMenus))
+                   <li>
+                       <a href="{{ route('transaksi_masuk.index') }}">
+                           <div class="parent-icon"><i class="material-icons-outlined">input</i></div>
+                           <div class="menu-title">Transaksi Masuk</div>
+                       </a>
+                   </li>
                @endif
-               @if (in_array('transaksi_keluar', $userMenuNames))
-               <li>
-                   <a href="{{ route('transaksi_keluar.index') }}">
-                       <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
-                       <div class="menu-title">Transaksi Keluar</div>
-                   </a>
-               </li>
+               @if ($isAdmin || in_array('transaksi_keluar', $allowedMenus))
+                   <li>
+                       <a href="{{ route('transaksi_keluar.index') }}">
+                           <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
+                           <div class="menu-title">Transaksi Keluar</div>
+                       </a>
+                   </li>
                @endif
-               @if (in_array('laporan_masuk', $userMenuNames))
-               <li>
-                   <a href="cards.html">
-                       <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
-                       <div class="menu-title">Laporan Masuk</div>
-                   </a>
-               </li>
+               @if ($isAdmin || in_array('laporan_masuk', $allowedMenus))
+                   <li>
+                       <a href="cards.html">
+                           <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
+                           <div class="menu-title">Laporan Masuk</div>
+                       </a>
+                   </li>
                @endif
-               @if (in_array('laporan_keluar', $userMenuNames))
-               <li>
-                   <a href="cards.html">
-                       <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
-                       <div class="menu-title">Laporan Keluar</div>
-                   </a>
-               </li>
+               @if ($isAdmin || in_array('laporan_keluar', $allowedMenus))
+                   <li>
+                       <a href="cards.html">
+                           <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
+                           <div class="menu-title">Laporan Keluar</div>
+                       </a>
+                   </li>
                @endif
-               @if (in_array('grafik_transaksi_masuk', $userMenuNames))
-               <li>
-                   <a href="cards.html">
-                       <div class="parent-icon"><i class="material-icons-outlined">trending_up</i></div>
-                       <div class="menu-title">Grafik Transaksi Masuk</div>
-                   </a>
-               </li>
+               @if ($isAdmin || in_array('grafik_transaksi_masuk', $allowedMenus))
+                   <li>
+                       <a href="cards.html">
+                           <div class="parent-icon"><i class="material-icons-outlined">trending_up</i></div>
+                           <div class="menu-title">Grafik Transaksi Masuk</div>
+                       </a>
+                   </li>
                @endif
-               @if (in_array('grafik_transaksi_keluar', $userMenuNames))
-               <li>
-                   <a href="cards.html">
-                       <div class="parent-icon"><i class="material-icons-outlined">trending_down</i></div>
-                       <div class="menu-title">Grafik Transaksi Keluar</div>
-                   </a>
-               </li>
+               @if ($isAdmin || in_array('grafik_transaksi_keluar', $allowedMenus))
+                   <li>
+                       <a href="cards.html">
+                           <div class="parent-icon"><i class="material-icons-outlined">trending_down</i></div>
+                           <div class="menu-title">Grafik Transaksi Keluar</div>
+                       </a>
+                   </li>
                @endif
-               <li>
-                   <a href="cards.html">
-                       <div class="parent-icon"><i class="material-icons-outlined">calculate</i></div>
-                       <div class="menu-title">Hasil Perhitungan</div>
-                   </a>
-               </li>
-               {{-- @endif --}}
-
-               <li class="menu-label">Akun</li>
-               <li>
-                   <a href="{{ route('acount.index') }}">
-                       <div class="parent-icon"><i class="material-icons-outlined">manage_accounts</i></div>
-                       <div class="menu-title">Manajemen Akun</div>
-                   </a>
-               </li>
-               {{-- @endif --}}
+               @if ($isAdmin)
+                   <li>
+                       <a href="cards.html">
+                           <div class="parent-icon"><i class="material-icons-outlined">calculate</i></div>
+                           <div class="menu-title">Hasil Perhitungan</div>
+                       </a>
+                   </li>
+               @endif
+               @if ($isAdmin)
+                   <li class="menu-label">Akun</li>
+                   <li>
+                       <a href="{{ route('acount.index') }}">
+                           <div class="parent-icon"><i class="material-icons-outlined">manage_accounts</i></div>
+                           <div class="menu-title">Manajemen Akun</div>
+                       </a>
+                   </li>
+               @endif
            </ul>
            <!--end navigation-->
        </div>
