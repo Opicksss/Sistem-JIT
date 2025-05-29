@@ -47,4 +47,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    public function hasMenuAccess($routeName)
+    {
+        // Admin bisa akses semua
+        if ($this->role === 'admin') {
+            return true;
+        }
+
+        // Pegawai hanya bisa akses menu yang punya relasi
+        return $this->menus()->where('name', $routeName)->exists();
+    }
 }
