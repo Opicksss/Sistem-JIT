@@ -6,6 +6,7 @@ use App\Http\Controllers\AcountController;
 use App\Http\Controllers\SuplierController;
 use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailLaporanController;
 use App\Http\Controllers\TransaksiMasukController;
 use App\Http\Controllers\TransaksiKeluarController;
 
@@ -53,6 +54,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transaksi_keluar.edit.{id}', [TransaksiKeluarController::class, 'edit'])->name('transaksi_keluar.edit');
     Route::put('/transaksi_keluar.update/{id}', [TransaksiKeluarController::class, 'update'])->name('transaksi_keluar.update');
     Route::delete('/transaksi_keluar.destroy.{id}', [TransaksiKeluarController::class, 'destroy'])->name('transaksi_keluar.destroy');
+
+    Route::get('laporan_transaksi_masuk', [DetailLaporanController::class, 'index'])->name('laporan_masuk.index');
+    Route::get('/detail_transaksi_masuk.{id}', [DetailLaporanController::class, 'show'])->name('detail_laporan_masuk.show');
+    Route::get('laporan_transaksi_keluar', [DetailLaporanController::class, 'laporanKeluar'])->name('laporan_keluar.index');
+    Route::get('/detail_transaksi_keluar.{id}', [DetailLaporanController::class, 'showLaporanKeluar'])->name('detail_laporan_keluar.show');
 
     Route::middleware('userAkses:pegawai')->group(function () {});
 

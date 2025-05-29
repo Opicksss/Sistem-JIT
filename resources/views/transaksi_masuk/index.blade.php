@@ -33,6 +33,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th width="5%">No</th>
+                                <th>ID Transaksi</th>
                                 <th width="20%">Penerima</th>
                                 <th width="10%">Suplier</th>
                                 <th width="10%">Bahan Baku</th>
@@ -45,6 +46,7 @@
                             @foreach ($transaksiMasuks as $item)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $item->id_transaksi }}</td>
                                     <td>{{ $item->penerima }}</td>
                                     <td>{{ $item->suplier->nama }}</td>
                                     <td>{{ $item->bahanBaku->nama }}</td>

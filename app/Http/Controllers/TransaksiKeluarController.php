@@ -35,6 +35,7 @@ class TransaksiKeluarController extends Controller
     {
         try {
             $validated = $request->validate([
+                'id_transaksi' => 'required|unique:transaksi_keluars,id_transaksi',
                 'penerima' => 'required',
                 'suplier_id' => 'required|exists:supliers,id',
                 'bahan_baku_id' => 'required|exists:bahan_bakus,id',
@@ -68,6 +69,7 @@ class TransaksiKeluarController extends Controller
     {
         try {
             $validated = $request->validate([
+                'id_transaksi' => 'required|unique:transaksi_keluars,id_transaksi,' . $transaksiKeluar->id,
                 'penerima' => 'required',
                 'suplier_id' => 'required|exists:supliers,id',
                 'bahan_baku_id' => 'required|exists:bahan_bakus,id',
