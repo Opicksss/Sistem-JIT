@@ -66,7 +66,7 @@
                @if ($isAdmin || in_array('laporan_masuk', $allowedMenus))
                    <li>
                        <a href="{{ route('laporan_masuk.index') }}">
-                           <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
+                           <div class="parent-icon"><i class="material-icons-outlined">assignment_turned_in</i></div>
                            <div class="menu-title">Laporan Masuk</div>
                        </a>
                    </li>
@@ -74,7 +74,7 @@
                @if ($isAdmin || in_array('laporan_keluar', $allowedMenus))
                    <li>
                        <a href="{{ route('laporan_keluar.index') }}">
-                           <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
+                           <div class="parent-icon"><i class="material-icons-outlined">assignment_return</i></div>
                            <div class="menu-title">Laporan Keluar</div>
                        </a>
                    </li>
