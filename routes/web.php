@@ -53,24 +53,23 @@ Route::middleware(['auth'])->group(function () {
         Route::get('transaksi_masuk{id}', [TransaksiMasukController::class, 'edit'])->name('transaksi_masuk.edit');
         Route::put('transaksi_masuk/{id}', [TransaksiMasukController::class, 'update'])->name('transaksi_masuk.update');
         Route::delete('transaksi_masuk/{id}', [TransaksiMasukController::class, 'destroy'])->name('transaksi_masuk.destroy');
+        Route::get('/api/bahan-baku/{id}', [TransaksiMasukController::class, 'getBahanBaku']);
+        Route::get('/api/suplier/{id}', [TransaksiMasukController::class, 'getSuplier']);
     });
+
 
     Route::middleware('menuAkses:laporan_masuk')->group(function () {
         Route::get('laporan_transaksi_masuk', [DetailLaporanController::class, 'index'])->name('laporan_masuk.index');
         Route::get('/detail_transaksi_masuk.{id}', [DetailLaporanController::class, 'show'])->name('detail_laporan_masuk.show');
     });
 
-    Route::middleware('menuAkses:laporan_masuk')->group(function () {
-        Route::get('laporan_transaksi_keluar', [DetailLaporanController::class, 'laporanKeluar'])->name('laporan_keluar.index');
-        Route::get('/detail_transaksi_keluar.{id}', [DetailLaporanController::class, 'showLaporanKeluar'])->name('detail_laporan_keluar.show');
-    });
-
     Route::middleware('menuAkses:transaksi_keluar')->group(function () {
         Route::get('transaksi_keluar', [TransaksiKeluarController::class, 'index'])->name('transaksi_keluar.index');
         Route::get('transaksi_keluarCreate', [TransaksiKeluarController::class, 'create'])->name('transaksi_keluar.create');
-        Route::post('transaksi_keluar', [TransaksiKeluarController::class, 'store'])->name('transaksi_keluar.store');
-        Route::get('transaksi_keluar{id}', [TransaksiKeluarController::class, 'edit'])->name('transaksi_keluar.edit');
-        Route::put('transaksi_keluar/{id}', [TransaksiKeluarController::class, 'update'])->name('transaksi_keluar.update');
+        Route::post('transaksi_keluarStore', [TransaksiKeluarController::class, 'store'])->name('transaksi_keluar.store');
+        Route::get('/api/transaksi-keluar/bahan-baku/{id}', [TransaksiKeluarController::class, 'getBahanBaku']);
+        Route::get('/api/transaksi-keluar/suplier/{id}', [TransaksiKeluarController::class, 'getSuplier']);
+        Route::get('/api/transaksi-keluar/check-stok/{bahanBakuId}/{jumlah}', [TransaksiKeluarController::class, 'checkStok']);
         Route::delete('transaksi_keluar/{id}', [TransaksiKeluarController::class, 'destroy'])->name('transaksi_keluar.destroy');
     });
 

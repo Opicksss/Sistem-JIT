@@ -20,12 +20,51 @@ class TransaksiMasuk extends Model
         'tanggal_masuk',
     ];
 
+   protected $casts = [
+        'tanggal_masuk' => 'date',
+        'stok' => 'integer'
+    ];
+
+    // Relasi dengan suplier
     public function suplier()
     {
-        return $this->belongsTo(Suplier::class, 'suplier_id');
+        return $this->belongsTo(Suplier::class);
     }
+
+    // Relasi dengan bahan baku
     public function bahanBaku()
     {
-        return $this->belongsTo(BahanBaku::class, 'bahan_baku_id');
+        return $this->belongsTo(BahanBaku::class);
+    }
+
+    // Event ketika transaksi dibuat
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Ketika transaksi masuk dibuat, otomatis tambah stok bahan baku
+        static::created(function ($transaksi) {
+            $transaksi->bahanBaku->tambahStok($transaksi->stok);
+        });
+
+        // Ketika transaksi masuk diupdate, sesuaikan stok
+        static::updated(function ($transaksi) {
+            if ($transaksi->wasChanged('stok')) {
+                $oldStok = $transaksi->getOriginal('stok');
+                $newStok = $transaksi->stok;
+                $selisih = $newStok - $oldStok;
+                
+                if ($selisih > 0) {
+                    $transaksi->bahanBaku->tambahStok($selisih);
+                } else {
+                    $transaksi->bahanBaku->kurangiStok(abs($selisih));
+                }
+            }
+        });
+
+        // Ketika transaksi masuk dihapus, kurangi stok
+        static::deleted(function ($transaksi) {
+            $transaksi->bahanBaku->kurangiStok($transaksi->stok);
+        });
     }
 }

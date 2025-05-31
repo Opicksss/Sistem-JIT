@@ -21,6 +21,33 @@ class BahanBaku extends Model
         'gambar',
     ];
 
+    protected $casts = [
+        'harga' => 'decimal:2',
+        'stok' => 'integer'
+    ];
+
+    // Relasi dengan transaksi masuk
+    public function transaksiMasuks()
+    {
+        return $this->hasMany(TransaksiMasuk::class);
+    }
+
+    // Method untuk menambah stok
+    public function tambahStok($jumlah)
+    {
+        $this->increment('stok', $jumlah);
+    }
+
+    // Method untuk mengurangi stok
+    public function kurangiStok($jumlah)
+    {
+        if ($this->stok >= $jumlah) {
+            $this->decrement('stok', $jumlah);
+            return true;
+        }
+        return false;
+    }
+
     public function transaksiMasuk()
     {
         return $this->hasMany(TransaksiMasuk::class, 'bahan_baku_id');

@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Models\TransaksiMasuk;
 use App\Models\BahanBaku;
 use App\Models\Suplier;
-use App\Models\TransaksiMasuk;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiMasukController extends Controller
 {
     public function index()
     {
-        $transaksiMasuks = TransaksiMasuk::with(['suplier', 'bahanBaku'])->get();
-        return view('transaksi_masuk.index', compact('transaksiMasuks'));
+        $transaksi_masuks = TransaksiMasuk::with(['suplier', 'bahanBaku'])->get();
+        return view('transaksi_masuk.index', compact('transaksi_masuks'));
     }
 
     public function create()
@@ -24,63 +25,88 @@ class TransaksiMasukController extends Controller
 
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'id_transaksi' => 'required|string|unique:transaksi_masuks',
+            'penerima' => 'required|string',
+            'tanggal_masuk' => 'required|date',
+            'items' => 'required|array|min:1',
+            'items.*.suplier_id' => 'required|exists:supliers,id',
+            'items.*.bahan_baku_id' => 'required|exists:bahan_bakus,id',
+            'items.*.stok' => 'required|integer|min:1',
+        ]);
+
         try {
-            $validated = $request->validate([
-                'id_transaksi' => 'required|unique:transaksi_masuks,id_transaksi',
-                'penerima' => 'required',
-                'suplier_id' => 'required|exists:supliers,id',
-                'bahan_baku_id' => 'required|exists:bahan_bakus,id',
-                'stok' => 'required|integer',
-                'tanggal_masuk' => 'required|date',
+            DB::beginTransaction();
+
+            // Simpan setiap item transaksi
+            foreach ($request->items as $item) {
+                // Buat transaksi masuk
+                TransaksiMasuk::create([
+                    'id_transaksi' => $request->id_transaksi,
+                    'penerima' => $request->penerima,
+                    'suplier_id' => $item['suplier_id'],
+                    'bahan_baku_id' => $item['bahan_baku_id'],
+                    'stok' => $item['stok'],
+                    'tanggal_masuk' => $request->tanggal_masuk,
+                ]);
+
+                // // Update stok bahan baku
+                // $bahanBaku = BahanBaku::find($item['bahan_baku_id']);
+                // $bahanBaku->increment('stok', $item['stok']);
+            }
+
+            DB::commit();
+
+            return redirect()->route('transaksi_masuk.index')
+                ->with('success', 'Transaksi masuk berhasil disimpan!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    // API untuk mendapatkan data bahan baku
+    public function getBahanBaku($id)
+    {
+        $bahanBaku = BahanBaku::find($id);
+        if ($bahanBaku) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id' => $bahanBaku->id,
+                    'id_bahan_baku' => $bahanBaku->id_bahan_baku,
+                    'nama' => $bahanBaku->nama,
+                    'satuan' => $bahanBaku->satuan,
+                    'stok_sekarang' => $bahanBaku->stok
+                ]
             ]);
-
-            
-            TransaksiMasuk::create($validated);
-            return redirect()->route('transaksi_masuk.index')->with('success', 'Transaksi masuk berhasil ditambahkan.');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menambahkan transaksi masuk: ' . $th->getMessage());
         }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Bahan baku tidak ditemukan'
+        ]);
     }
 
-    public function edit($id)
+    // API untuk mendapatkan data suplier
+    public function getSuplier($id)
     {
-        
-        $transaksiMasuk = TransaksiMasuk::findOrFail($id);
-        $supliers = Suplier::all();
-        $bahan_bakus = BahanBaku::all();
-        return view('transaksi_masuk.edit', compact('transaksiMasuk'));
-    }
-    public function update(Request $request, $id)
-    {
-        try {
-            $validated = $request->validate([
-                 'id_transaksi' => 'required|unique:transaksi_masuks,id_transaksi',
-                'penerima' => 'required',
-                'suplier_id' => 'required|exists:supliers,id',
-                'bahan_baku_id' => 'required|exists:bahan_bakus,id',
-                'stok' => 'required|integer',
-                'tanggal_masuk' => 'required|date',
+        $suplier = Suplier::find($id);
+        if ($suplier) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id' => $suplier->id,
+                    'nama' => $suplier->nama
+                ]
             ]);
-
-            
-            $transaksiMasuk = TransaksiMasuk::findOrFail($id);
-            $transaksiMasuk->update($validated);
-            return redirect()->route('transaksi_masuk.index')->with('success', 'Transaksi masuk berhasil diperbarui.');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui transaksi masuk: ' . $th->getMessage());
         }
-    }
 
-    public function destroy($id)
-    {
-        
-        try {
-            $transaksiMasuk = TransaksiMasuk::findOrFail($id);
-            $transaksiMasuk->delete();
-            return redirect()->route('transaksi_masuk.index')->with('success', 'Transaksi masuk berhasil dihapus.');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus transaksi masuk: ' . $th->getMessage());
-        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Suplier tidak ditemukan'
+        ]);
     }
 }
