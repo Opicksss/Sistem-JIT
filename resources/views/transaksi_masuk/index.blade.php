@@ -43,14 +43,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($transaksiMasuks as $item)
+                            @foreach ($transaksi_masuks as $item)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $item->id_transaksi }}</td>
                                     <td>{{ $item->penerima }}</td>
                                     <td>{{ $item->suplier->nama }}</td>
                                     <td>{{ $item->bahanBaku->nama }}</td>
-                                    <td class="text-end">{{ $item->stok_masuk }}</td>
+                                    <td class="text-end">{{ $item->stok }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
                                 </tr>
                             @endforeach
