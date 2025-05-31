@@ -81,7 +81,7 @@
                @endif
                @if ($isAdmin || in_array('grafik_transaksi_masuk', $allowedMenus))
                    <li>
-                       <a href="cards.html">
+                       <a href="{{route('grafik.masuk')}}">
                            <div class="parent-icon"><i class="material-icons-outlined">trending_up</i></div>
                            <div class="menu-title">Grafik Transaksi Masuk</div>
                        </a>
@@ -89,7 +89,7 @@
                @endif
                @if ($isAdmin || in_array('grafik_transaksi_keluar', $allowedMenus))
                    <li>
-                       <a href="cards.html">
+                       <a href="{{route('grafik.keluar')}}">
                            <div class="parent-icon"><i class="material-icons-outlined">trending_down</i></div>
                            <div class="menu-title">Grafik Transaksi Keluar</div>
                        </a>

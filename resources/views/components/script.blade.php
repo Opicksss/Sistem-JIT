@@ -73,3 +73,118 @@
             });
         });
     </script>
+
+    <script>
+        var options = {
+            series: [{
+                name: "Desktops",
+                data: [4, 10, 25, 12, 25, 18, 40, 22, 7]
+            }],
+            chart: {
+                foreColor: "#9ba7b2",
+                height: 350,
+                type: 'area',
+                zoom: {
+                    enabled: false
+                },
+                toolbar: {
+                    show: !1,
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 4,
+                curve: 'smooth'
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    gradientToColors: ['#ff0080'],
+                    shadeIntensity: 1,
+                    type: 'vertical',
+                    opacityFrom: 0.8,
+                    opacityTo: 0.1,
+                    stops: [0, 100, 100, 100]
+                },
+            },
+            colors: ["#ffd200"],
+            grid: {
+                show: true,
+                borderColor: 'rgba(0, 0, 0, 0.15)',
+                strokeDashArray: 4,
+            },
+            tooltip: {
+                theme: "dark",
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            },
+            markers: {
+                show: !1,
+                size: 5,
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart1"), options);
+        chart.render();
+
+
+        var options = {
+            series: [{
+                name: "Desktops",
+                data: [4, 10, 25, 12, 25, 18, 40, 22, 7]
+            }],
+            chart: {
+                foreColor: "#9ba7b2",
+                height: 350,
+                type: 'area',
+                zoom: {
+                    enabled: false
+                },
+                toolbar: {
+                    show: !1,
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 4,
+                curve: 'smooth'
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    gradientToColors: ['#ff0080'],
+                    shadeIntensity: 1,
+                    type: 'vertical',
+                    opacityFrom: 0.8,
+                    opacityTo: 0.1,
+                    stops: [0, 100, 100, 100]
+                },
+            },
+            colors: ["#ff0080"],
+            grid: {
+                show: true,
+                borderColor: 'rgba(0, 0, 0, 0.15)',
+                strokeDashArray: 4,
+            },
+            tooltip: {
+                theme: "dark",
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            },
+            markers: {
+                show: !1,
+                size: 5,
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart2"), options);
+        chart.render();
+    </script>
