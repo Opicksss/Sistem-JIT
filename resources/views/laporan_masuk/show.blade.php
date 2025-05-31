@@ -21,48 +21,96 @@
                     <div>
                         <h5 class="mb-0">Transaksi Bahan Baku Masuk</h5>
                     </div>
+                    <div>
+                        <a href="{{ route('detail_laporan_masuk.print', $transaksiMasuk->id) }}" target="_blank"
+                            class="btn btn-outline-secondary me-2" title="Cetak">
+                            <i class="bx bx-printer"></i>
+                        </a>
+                    </div>
 
                 </div>
             </div>
             <div class="card-body">
                 <table class="table">
                     <tr>
-                        <th width="20%" >ID Transaksi</th>
+                        <th width="20%">ID Transaksi</th>
                         <td>: {{ $transaksiMasuk->id_transaksi }}</td>
                     </tr>
                     <tr>
-                        <th width="20%" >ID Suplier</th>
-                        <td>: {{ $transaksiMasuk->suplier_id }}</td>
+                        <th width="20%">ID Suplier</th>
+                        <td>: {{ $transaksiMasuk->suplier->id_suplier}}</td>
                     </tr>
                     <tr>
-                        <th width="20%" >Penerima</th>
+                        <th width="20%">Penerima</th>
                         <td>: {{ $transaksiMasuk->penerima }}</td>
                     </tr>
                     <tr>
-                        <th width="20%" >Nama Suplier</th>
+                        <th width="20%">Nama Suplier</th>
                         <td>: {{ $transaksiMasuk->suplier->nama }}</td>
                     </tr>
                     <tr>
-                        <th width="20%" >Alamat</th>
+                        <th width="20%">Alamat</th>
                         <td>: {{ $transaksiMasuk->suplier->alamat }}</td>
                     </tr>
                     <tr>
-                        <th width="20%" >No Telepon</th>
+                        <th width="20%">No Telepon</th>
                         <td>: {{ $transaksiMasuk->suplier->telepon }}</td>
                     </tr>
                     <tr>
-                        <th width="20%" >Kota</th>
+                        <th width="20%">Kota</th>
                         <td>: {{ $transaksiMasuk->suplier->kota }}</td>
                     </tr>
                     <tr>
-                        <th width="20%" >Provinsi</th>
+                        <th width="20%">Provinsi</th>
                         <td>: {{ $transaksiMasuk->suplier->provinsi }}</td>
                     </tr>
                     <tr>
-                        <th width="20%" >Tanggal Masuk</th>
-                        <td>: {{ \Carbon\Carbon::parse($transaksiMasuk->tanggal)->format('d-m-Y') }}</td>
+                        <th width="20%">Tanggal Masuk</th>
+                        <td>: {{ \Carbon\Carbon::parse($transaksiMasuk->tanggal_masuk)->locale('id')->format('d M Y') }}</td>
                     </tr>
                 </table>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h6 class="mb-0">Detail Bahan Baku Masuk</h6>
+                    </div>
+
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="5%" class="text-center">No</th>
+                                <th width="10%" class="text-center">ID Bahan Baku</th>
+                                <th width="20%">Bahan Baku</th>
+                                <th width="10%" class="text-end">Stok Masuk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">{{ $transaksiMasuk->bahanBaku->id_bahan_baku }}</td>
+                                <td>{{ $transaksiMasuk->bahanBaku->nama }}</td>
+                                <td class="text-end">{{ $transaksiMasuk->stok }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3" class="text-end">Total Stok Masuk</th>
+                                <th class="text-end">{{ $transaksiMasuk->bahanBaku->stok }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                        </div>
+                        <div>
+                            <a href="{{ route('laporan_masuk.index') }}" class="btn btn-primary">
+                                <i class="bx bx-arrow-back"></i> Kembali
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
