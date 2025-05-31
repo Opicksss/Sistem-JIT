@@ -43,52 +43,52 @@
             </div>
         </div>
 
-
-
-    <div class="row g-3">
-        <div class="col-md-6">
-            <div class="card rounded-4">
-                <div class="card-header py-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Grafik Transaksi Masuk</h5>
-                        <div class="dropdown">
-                            <button class="btn btn-link dropdown-toggle p-0" type="button" data-bs-toggle="dropdown">
-                                <span class="material-icons-outlined fs-5">more_vert</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <div class="card rounded-4">
+                    <div class="card-header py-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0">Transaksi Masuk</h5>
+                            <div class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
+                                    data-bs-toggle="dropdown">
+                                    <span class="material-icons-outlined fs-5">more_vert</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:;">Action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:;">Another action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div id="chart1"></div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div id="chart2"></div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="card rounded-4">
+                    <div class="card-header py-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0">Transaksi Keluar</h5>
+                            <div class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
+                                    data-bs-toggle="dropdown">
+                                    <span class="material-icons-outlined fs-5">more_vert</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:;">Action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:;">Another action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart2"></div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card rounded-4">
-                <div class="card-header py-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Grafik Transaksi Keluar</h5>
-                        <div class="dropdown">
-                            <button class="btn btn-link dropdown-toggle p-0" type="button" data-bs-toggle="dropdown">
-                                <span class="material-icons-outlined fs-5">more_vert</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div id="chart1"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 </x-layout>

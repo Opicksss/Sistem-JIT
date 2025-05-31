@@ -72,6 +72,7 @@
     <!--end footer-->
 
 
+
     <!--bootstrap js-->
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/plugins/notifications/js/lobibox.min.js"></script>
@@ -83,23 +84,16 @@
     <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
     <script src="assets/plugins/metismenu/metisMenu.min.js"></script>
     <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+    {{-- <script src="assets/plugins/apexchart/apex-custom-chart.js"></script> --}}
     <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
-    <script src="assets/plugins/apexchart/apex-custom-chart.js"></script>
     <script src="assets/plugins/peity/jquery.peity.min.js"></script>
 
-
-    <script>
-        $(".data-attributes span").peity("donut")
-    </script>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/dashboard1.js"></script>
-    <script>
-        new PerfectScrollbar(".user-list")
-    </script>
-
 
     <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
     <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+
+
 <x-script></x-script>
 
 
