@@ -1,10 +1,9 @@
 <!doctype html>
 <html lang="en" data-bs-theme="light">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name') }} | Grafik Transaksi Masuk</title>
+    <title>{{ config('app.name') }} | Grafik Transaksi Keluar</title>
     <!--favicon-->
     <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png">
     <!-- loader-->
@@ -53,65 +52,38 @@
     <!--start main wrapper-->
     <main class="main-wrapper">
         <div class="main-content">
-            <div class="mb-3 text-uppercase breadcrumb-title">Grafik Transaksi Masuk </div>
-            <!-- Stats Cards -->
-            <div class="row row-cols-1 row-cols-xl-3 g-3 mb-4">
-                <div class="col">
-                    <div class="card rounded-4 h-100">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <h6 class="mb-2">Total Supplier</h6>
-                                <h2 class="mb-0 display-4">{{ $totalSupplier }}</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card rounded-4 h-100">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <h6 class="mb-2">Total Transaksi Masuk</h6>
-                                <h2 class="mb-0 display-4">{{ $totalMasuk }}</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card rounded-4 h-100">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <h6 class="mb-2">Total Transaksi Keluar</h6>
-                                <h2 class="mb-0 display-4">{{ $totalKeluar }}</h2>
-                            </div>
-                        </div>
-                    </div>
+            <div class="mb-3 text-uppercase breadcrumb-title">Grafik Transaksi Keluar </div>
+            <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+                <div class="breadcrumb-title pe-3">Grafik Transaksi Keluar</div>
+                <div class="ps-3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 p-0">
+                            <li class="breadcrumb-item me-2">
+                                <a href="javascript:void(0)"><i class='bx bx-line-chart-down'></i></a>
+                            </li>
+                            <li>Tampilan Grafik Transaksi Keluar</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
-
-            <div class="row g-3">
-                <div class="col-12 col-md-6">
+            <div class="page-content">
+                <div class="col-12 col-xl-12">
                     <div class="card rounded-4">
                         <div class="card-header py-3">
                             <div class="d-flex align-items-center justify-content-between">
-                                <h5 class="mb-0">Transaksi Masuk {{ $tahun }}</h5>
+                                <h5 class="mb-0">Transaksi Keluar</h5>
+                                <select id="tahun" class="form-select form-select-sm mb-3" style="width: 200px">
+                                    @foreach ($tahunList as $tahun)
+                                        <option value="{{ $tahun }}"
+                                            {{ $tahun == $tahunTerpilih ? 'selected' : '' }}>
+                                            {{ $tahun }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div id="chart-masuk"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="card rounded-4">
-                        <div class="card-header py-3">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <h5 class="mb-0">Transaksi Keluar {{ $tahun }}</h5>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="chart-keluar"></div>
+                            <div id="chart1"></div>
                         </div>
                     </div>
                 </div>
@@ -143,6 +115,7 @@
     <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
     <script src="assets/plugins/metismenu/metisMenu.min.js"></script>
     <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+    {{-- <script src="assets/plugins/apexchart/apex-custom-chart.js"></script> --}}
     <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
     <script src="assets/plugins/peity/jquery.peity.min.js"></script>
 
@@ -151,60 +124,72 @@
     <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
     <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
 
-<script>
-    var namaBulan = @json($namaBulan);
-    var dataMasuk = @json($dataMasuk);
-    var dataKeluar = @json($dataKeluar);
+    <script>
+        document.getElementById('tahun').addEventListener('change', function() {
+            const tahun = this.value;
+            window.location.href = `?tahun=${tahun}`;
+        });
 
-    var optionsMasuk = {
-        series: [{
-            name: 'Stok Masuk',
-            data: dataMasuk
-        }],
-        chart: {
-            height: 350,
-            type: 'area',
-            toolbar: { show: false }
-        },
-        xaxis: {
-            categories: namaBulan,
-        },
-        stroke: {
-            curve: 'smooth'
-        },
-        colors: ['#28a745'],
-        dataLabels: { enabled: false },
-        tooltip: { theme: 'dark' }
-    };
+        var options = {
+            series: [{
+                name: "Stok",
+                data: @json($dataStok)
+            }],
+            chart: {
+                foreColor: "#9ba7b2",
+                height: 350,
+                type: 'area',
+                zoom: {
+                    enabled: false
+                },
+                toolbar: {
+                    show: false
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 4,
+                curve: 'smooth'
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    gradientToColors: ['#ff0080'],
+                    shadeIntensity: 1,
+                    type: 'vertical',
+                    opacityFrom: 0.8,
+                    opacityTo: 0.1,
+                    stops: [0, 100, 100, 100]
+                },
+            },
+            colors: ["#dc3545"],
+            grid: {
+                show: true,
+                borderColor: 'rgba(0, 0, 0, 0.15)',
+                strokeDashArray: 4,
+            },
+            tooltip: {
+                theme: "dark"
+            },
+            xaxis: {
+                categories: @json($namaBulan),
+            },
+            markers: {
+                show: false,
+                size: 5,
+            },
+        };
 
-    var optionsKeluar = {
-        series: [{
-            name: 'Stok Keluar',
-            data: dataKeluar
-        }],
-        chart: {
-            height: 350,
-            type: 'area',
-            toolbar: { show: false }
-        },
-        xaxis: {
-            categories: namaBulan,
-        },
-        stroke: {
-            curve: 'smooth'
-        },
-        colors: ['#dc3545'],
-        dataLabels: { enabled: false },
-        tooltip: { theme: 'dark' }
-    };
-
-    var chartMasuk = new ApexCharts(document.querySelector("#chart-masuk"), optionsMasuk);
-    var chartKeluar = new ApexCharts(document.querySelector("#chart-keluar"), optionsKeluar);
-
-    chartMasuk.render();
-    chartKeluar.render();
-</script>
+        var chart = new ApexCharts(document.querySelector("#chart1"), options);
+        chart.render();
+    </script>
 
 </body>
+
+
+<!-- Mirrored from codervent.com/maxton/demo/vertical-menu/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 05 Jul 2024 04:30:17 GMT -->
 
 </html>
