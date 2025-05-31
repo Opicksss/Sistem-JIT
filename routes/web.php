@@ -61,11 +61,14 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('menuAkses:laporan_masuk')->group(function () {
         Route::get('laporan_transaksi_masuk', [DetailLaporanController::class, 'index'])->name('laporan_masuk.index');
         Route::get('/detail_transaksi_masuk.{id}', [DetailLaporanController::class, 'show'])->name('detail_laporan_masuk.show');
+        Route::get('/detail-laporan-masuk/print/{id}', [DetailLaporanController::class, 'printMasuk'])->name('detail_laporan_masuk.print');
+
     });
 
     Route::middleware('menuAkses:laporan_keluar')->group(function () {
-        Route::get('laporan_transaksi_keluar', [DetailLaporanController::class, 'index'])->name('laporan_keluar.index');
-        Route::get('/detail_transaksi_keluar.{id}', [DetailLaporanController::class, 'show'])->name('detail_laporan_keluar.show');
+        Route::get('laporan_transaksi_keluar', [DetailLaporanController::class, 'laporanKeluar'])->name('laporan_keluar.index');
+        Route::get('/detail_transaksi_keluar.{id}', [DetailLaporanController::class, 'showLaporanKeluar'])->name('detail_laporan_keluar.show');
+        Route::get('/detail-laporan-keluar/print/{id}', [DetailLaporanController::class, 'printKeluar'])->name('detail_laporan_keluar.print');
     });
 
     Route::middleware('menuAkses:transaksi_keluar')->group(function () {

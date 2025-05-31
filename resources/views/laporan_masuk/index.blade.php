@@ -30,7 +30,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $item->id_transaksi }}</td>
                                     <td>{{ $item->penerima }}</td>
-                                    <td>{{ $item->tanggal_masuk }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal_masuk)->locale('id')->format('d M Y') }}</td>
                                     <td class="text-center">
                                          <div class="d-flex gap-2 justify-content-center">
                                             <a href="{{ route('detail_laporan_masuk.show', $item->id) }}"
