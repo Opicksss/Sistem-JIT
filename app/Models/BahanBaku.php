@@ -9,16 +9,11 @@ class BahanBaku extends Model
 {
     use HasFactory;
 
-    protected $table = 'bahan_bakus';
-
     protected $fillable = [
-        'id_bahan_baku',
         'nama',
-        'jenis',
         'satuan',
         'harga',
-        'stok',
-        'gambar',
+        'stok'
     ];
 
     protected $casts = [
@@ -32,26 +27,48 @@ class BahanBaku extends Model
         return $this->hasMany(TransaksiMasuk::class);
     }
 
-    // Method untuk menambah stok
+    // Method untuk menambah stok dengan validasi
     public function tambahStok($jumlah)
     {
+        if ($jumlah <= 0) {
+            throw new \Exception('Jumlah penambahan stok harus lebih dari 0');
+        }
+        
         $this->increment('stok', $jumlah);
+        $this->save(); // Pastikan perubahan tersimpan
+        return true;
     }
 
-    // Method untuk mengurangi stok
+    // Method untuk mengurangi stok dengan validasi yang lebih ketat
     public function kurangiStok($jumlah)
     {
+        if ($jumlah <= 0) {
+            throw new \Exception('Jumlah pengurangan stok harus lebih dari 0');
+        }
+
+        // Refresh data dari database untuk memastikan stok terbaru
+        $this->refresh();
+
         if ($this->stok >= $jumlah) {
             $this->decrement('stok', $jumlah);
+            $this->save(); // Pastikan perubahan tersimpan
             return true;
         }
+        
         return false;
+    }
+
+    // Method untuk mendapatkan stok real-time
+    public function getStokTerbaru()
+    {
+        return $this->fresh()->stok;
     }
 
     public function transaksiMasuk()
     {
         return $this->hasMany(TransaksiMasuk::class, 'bahan_baku_id');
     }
+    
     public function transaksiKeluar()
     {
         return $this->hasMany(TransaksiKeluar::class, 'bahan_baku_id');

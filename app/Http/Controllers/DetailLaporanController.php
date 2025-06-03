@@ -24,6 +24,7 @@ class DetailLaporanController extends Controller
         return view('laporan_masuk.show', compact('transaksiMasuk'));
     }
 
+
     public function printMasuk($id)
     {
         $transaksiMasuk = TransaksiMasuk::with(['suplier', 'bahanBaku'])->findOrFail($id);
@@ -33,6 +34,9 @@ class DetailLaporanController extends Controller
 
         return $pdf->stream('detail_transaksi_masuk.pdf');
     }
+
+
+    // Laporan Transaksi Keluar
 
     public function laporanKeluar()
     {
@@ -48,6 +52,14 @@ class DetailLaporanController extends Controller
             ->findOrFail($id);
         return view('laporan_keluar.show', compact('transaksiKeluar'));
     }
+
+    public function sisa($id)
+    {
+        $transaksiKeluar = TransaksiKeluar::with(['suplier', 'bahanBaku'])
+            ->findOrFail($id);
+        return view('laporan_keluar.sisa', compact('transaksiKeluar'));
+    }
+
 
     public function printKeluar($id)
     {

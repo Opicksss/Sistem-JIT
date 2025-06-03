@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('transaksi_keluars', function (Blueprint $table) {
             $table->id();
-            $table->string('id_transaksi')->unique();
+            $table->string('id_transaksi');
             $table->string('penerima');
             $table->foreignId('bahan_baku_id')
                 ->constrained('bahan_bakus')
                 ->onDelete('cascade');
-             $table->foreignId('suplier_id')
+            $table->foreignId('suplier_id')
                 ->constrained('supliers')
                 ->onDelete('cascade');
             $table->integer('stok');
             $table->date('tanggal_keluar');
-
+            $table->integer('stok_awal');
+            $table->integer('sisa');
             $table->timestamps();
         });
     }

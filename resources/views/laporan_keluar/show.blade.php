@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <th width="20%">ID Suplier</th>
-                        <td>: {{ $transaksiKeluar->suplier_id }}</td>
+                        <td>: {{ $transaksiKeluar->suplier->id_suplier }}</td>
                     </tr>
                     <tr>
                         <th width="20%">Penerima</th>
@@ -102,18 +102,18 @@
                         <tfoot>
                             <tr>
                                 <th colspan="3" class="text-end">Total Stok keluar</th>
-                                <th class="text-end">{{ $transaksiKeluar->bahanBaku->stok }}</th>
+                                <th class="text-end">{{ $transaksiKeluar->stok }}</th>
                             </tr>
                         </tfoot>
                     </table>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                        </div>
-                        <div>
-                            <a href="{{ route('laporan_keluar.index') }}" class="btn btn-primary">
-                                <i class="bx bx-arrow-back"></i> Kembali
-                            </a>
-                        </div>
+                    <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
+                        <a href="{{ route('laporan_keluar.index') }}" class="btn btn-primary">
+                            <i class="bx bx-arrow-back"></i> Kembali
+                        </a>
+                        <a href="{{ route('detail_laporan_keluar.show_laporan_keluar_show', $transaksiKeluar->id) }}"
+                            class="btn btn-warning">
+                            <i class="bx bx-archive"></i> Sisa
+                        </a>
                     </div>
                 </div>
             </div>
