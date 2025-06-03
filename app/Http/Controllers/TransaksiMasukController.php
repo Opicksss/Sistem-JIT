@@ -50,9 +50,7 @@ class TransaksiMasukController extends Controller
                     'tanggal_masuk' => $request->tanggal_masuk,
                 ]);
 
-                // // Update stok bahan baku
-                // $bahanBaku = BahanBaku::find($item['bahan_baku_id']);
-                // $bahanBaku->increment('stok', $item['stok']);
+               
             }
 
             DB::commit();

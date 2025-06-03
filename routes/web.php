@@ -68,8 +68,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('menuAkses:laporan_keluar')->group(function () {
         Route::get('laporan_transaksi_keluar', [DetailLaporanController::class, 'laporanKeluar'])->name('laporan_keluar.index');
         Route::get('/detail_transaksi_keluar.{id}', [DetailLaporanController::class, 'showLaporanKeluar'])->name('detail_laporan_keluar.show');
+        Route::get('/sisa-laporan-keluar-{id}', [DetailLaporanController::class, 'sisa'])->name('detail_laporan_keluar.show_laporan_keluar_show');
         Route::get('/detail-laporan-keluar/print/{id}', [DetailLaporanController::class, 'printKeluar'])->name('detail_laporan_keluar.print');
-         Route::get('/sisa', [DetailLaporanController::class, 'sisa'])->name('laporan_keluar.sisa');
 
     });
 

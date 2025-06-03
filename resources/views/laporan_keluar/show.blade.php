@@ -110,7 +110,8 @@
                         <a href="{{ route('laporan_keluar.index') }}" class="btn btn-primary">
                             <i class="bx bx-arrow-back"></i> Kembali
                         </a>
-                        <a href="{{ route('laporan_keluar.sisa') }}" class="btn btn-warning">
+                        <a href="{{ route('detail_laporan_keluar.show_laporan_keluar_show', $transaksiKeluar->id) }}"
+                            class="btn btn-warning">
                             <i class="bx bx-archive"></i> Sisa
                         </a>
                     </div>
