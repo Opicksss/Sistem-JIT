@@ -48,29 +48,141 @@ class TransaksiKeluarController extends Controller
 
             // Simpan setiap item transaksi
             foreach ($request->items as $item) {
-                // Buat transaksi keluar
-                // Stok akan otomatis berkurang melalui Model Event
+                $bahanBaku = BahanBaku::find($item['bahan_baku_id']);
+                $stokAwal = $bahanBaku->stok; // Ambil stok sebelum dikurangi
+                $sisa = $stokAwal - $item['stok']; // Hitung sisa setelah dikurangi
+
+                // Buat transaksi keluar dengan stok_awal dan sisa
                 TransaksiKeluar::create([
                     'id_transaksi' => $request->id_transaksi,
                     'penerima' => $request->penerima,
                     'suplier_id' => $item['suplier_id'],
                     'bahan_baku_id' => $item['bahan_baku_id'],
                     'stok' => $item['stok'],
+                    'stok_awal' => $stokAwal,
+                    'sisa' => $sisa,
                     'tanggal_keluar' => $request->tanggal_keluar,
                 ]);
+
+                // Kurangi stok bahan baku
+                $bahanBaku->kurangiStok($item['stok']);
             }
 
             DB::commit();
 
             return redirect()->route('transaksi_keluar.index')
                 ->with('success', 'Transaksi keluar berhasil disimpan!');
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function show($id)
+    {
+        $transaksi_keluar = TransaksiKeluar::with(['suplier', 'bahanBaku'])->findOrFail($id);
+        return view('transaksi_keluar.show', compact('transaksi_keluar'));
+    }
+
+    public function edit($id)
+    {
+        $transaksi_keluar = TransaksiKeluar::findOrFail($id);
+        $supliers = Suplier::all();
+        $bahan_bakus = BahanBaku::all();
+        return view('transaksi_keluar.edit', compact('transaksi_keluar', 'supliers', 'bahan_bakus'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'penerima' => 'required|string',
+            'tanggal_keluar' => 'required|date',
+            'suplier_id' => 'required|exists:supliers,id',
+            'bahan_baku_id' => 'required|exists:bahan_bakus,id',
+            'stok' => 'required|integer|min:1',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $transaksi = TransaksiKeluar::findOrFail($id);
+            $oldStok = $transaksi->stok;
+            $newStok = $request->stok;
+
+            // Kembalikan stok lama ke bahan baku
+            $transaksi->bahanBaku->tambahStok($oldStok);
+
+            // Validasi stok baru
+            $bahanBaku = BahanBaku::find($request->bahan_baku_id);
+            if ($bahanBaku->stok < $newStok) {
+                throw new \Exception("Stok {$bahanBaku->nama} tidak mencukupi! Stok tersedia: {$bahanBaku->stok}, diminta: {$newStok}");
+            }
+
+            // Hitung stok_awal dan sisa yang baru
+            $stokAwal = $bahanBaku->stok;
+            $sisa = $stokAwal - $newStok;
+
+            // Update transaksi
+            $transaksi->update([
+                'penerima' => $request->penerima,
+                'suplier_id' => $request->suplier_id,
+                'bahan_baku_id' => $request->bahan_baku_id,
+                'stok' => $newStok,
+                'stok_awal' => $stokAwal,
+                'sisa' => $sisa,
+                'tanggal_keluar' => $request->tanggal_keluar,
+            ]);
+
+            // Kurangi stok baru dari bahan baku
+            $bahanBaku->kurangiStok($newStok);
+
+            DB::commit();
+
+            return redirect()->route('transaksi_keluar.index')
+                ->with('success', 'Transaksi keluar berhasil diupdate!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $transaksi = TransaksiKeluar::findOrFail($id);
+
+            // Kembalikan stok ke bahan baku
+            $transaksi->bahanBaku->tambahStok($transaksi->stok);
+
+            // Hapus transaksi
+            $transaksi->delete();
+
+            DB::commit();
+
+            return redirect()->route('transaksi_keluar.index')
+                ->with('success', 'Transaksi keluar berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    // Halaman Sisa Stok
+    public function sisa()
+    {
+        $transaksi_keluars = TransaksiKeluar::with(['suplier', 'bahanBaku'])
+            ->select('id_transaksi', 'penerima', 'bahan_baku_id', 'suplier_id', 'stok_awal', 'stok', 'sisa', 'tanggal_keluar')
+            ->orderBy('tanggal_keluar', 'desc')
+            ->get();
+
+        return view('transaksi_keluar.sisa', compact('transaksi_keluars'));
     }
 
     // API untuk mendapatkan data bahan baku dengan stok
@@ -89,7 +201,7 @@ class TransaksiKeluarController extends Controller
                 ]
             ]);
         }
-        
+
         return response()->json([
             'success' => false,
             'message' => 'Bahan baku tidak ditemukan'
@@ -109,7 +221,7 @@ class TransaksiKeluarController extends Controller
                 ]
             ]);
         }
-        
+
         return response()->json([
             'success' => false,
             'message' => 'Suplier tidak ditemukan'
@@ -128,7 +240,7 @@ class TransaksiKeluarController extends Controller
         }
 
         $stokCukup = $bahanBaku->stok >= $jumlah;
-        
+
         return response()->json([
             'success' => true,
             'stok_cukup' => $stokCukup,

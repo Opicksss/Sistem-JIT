@@ -15,7 +15,9 @@ class TransaksiKeluar extends Model
         'suplier_id',
         'bahan_baku_id',
         'stok',
-        'tanggal_keluar'
+        'tanggal_keluar',
+        'stok_awal',
+        'sisa',
     ];
 
     protected $casts = [

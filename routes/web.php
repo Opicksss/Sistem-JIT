@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('laporan_transaksi_keluar', [DetailLaporanController::class, 'laporanKeluar'])->name('laporan_keluar.index');
         Route::get('/detail_transaksi_keluar.{id}', [DetailLaporanController::class, 'showLaporanKeluar'])->name('detail_laporan_keluar.show');
         Route::get('/detail-laporan-keluar/print/{id}', [DetailLaporanController::class, 'printKeluar'])->name('detail_laporan_keluar.print');
+         Route::get('/sisa', [DetailLaporanController::class, 'sisa'])->name('laporan_keluar.sisa');
+
     });
 
     Route::middleware('menuAkses:transaksi_keluar')->group(function () {

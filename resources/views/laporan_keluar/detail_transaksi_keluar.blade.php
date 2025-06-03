@@ -47,7 +47,7 @@
         <tfoot>
             <tr>
                 <th colspan="3" style="text-align: right;">Total Stok Keluar</th>
-                <th>{{ $transaksiKeluar->bahanBaku->stok }}</th>
+                <th>{{ $transaksiKeluar->stok }}</th>
             </tr>
         </tfoot>
     </table>
