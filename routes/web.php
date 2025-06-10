@@ -7,7 +7,6 @@ use App\Http\Controllers\GrafikController;
 use App\Http\Controllers\SuplierController;
 use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\GrafikMasukController;
 use App\Http\Controllers\DetailLaporanController;
 use App\Http\Controllers\TransaksiMasukController;
 use App\Http\Controllers\TransaksiKeluarController;
