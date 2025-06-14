@@ -97,7 +97,7 @@
                @endif
                @if ($isAdmin)
                    <li>
-                       <a href="cards.html">
+                       <a href="{{route('hasil.index')}}">
                            <div class="parent-icon"><i class="material-icons-outlined">calculate</i></div>
                            <div class="menu-title">Hasil Perhitungan</div>
                        </a>

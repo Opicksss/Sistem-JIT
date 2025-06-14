@@ -18,13 +18,14 @@ class TransaksiKeluar extends Model
         'tanggal_keluar',
         'stok_awal',
         'sisa',
+        'biaya_penyimpanan',
     ];
 
     protected $casts = [
         'tanggal_keluar' => 'date',
-        'stok' => 'integer',
-        'stok_awal' => 'integer',
-        'sisa' => 'integer'
+        'stok' => 'decimal:3',
+        'stok_awal' => 'decimal:3',
+        'sisa' => 'decimal:3',
     ];
 
     // Relasi dengan suplier
@@ -38,7 +39,5 @@ class TransaksiKeluar extends Model
     {
         return $this->belongsTo(BahanBaku::class);
     }
-
-    // TIDAK ADA EVENT BOOT() - Semua logic stok dihandle di controller
-    // Ini untuk menghindari konflik dan memudahkan debugging
+   
 }

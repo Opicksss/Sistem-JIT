@@ -41,16 +41,11 @@
                     </div>
                     <div class="col-md-12">
                         <label for="satuan" class="form-label">Satuan</label>
-                        <select id="satuan" name="satuan" class="form-select" required>
-                            <option selected disabled>Pilih Satuan...</option>
-                            <option value="Kg">Kg</option>
-                            <option value="Gram">Gram</option>
-                            <option value="Pcs">Pcs</option>
-                        </select>
+                        <input type="text" class="form-control" id="satuan" name="satuan" value="Kg" readonly required>
                     </div>
                     <div class="col-md-12">
                         <label for="stock" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="stok" name="stok" required>
+                        <input type="number" step="0.001" class="form-control" id="stok" name="stok" required>
                     </div>
                     <div class="col-md-12">
                         <label for="harga" class="form-label">Harga</label>

@@ -44,7 +44,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="penerima" class="form-label">Penerima *</label>
-                        <input type="text" class="form-control" id="penerima" name="penerima" required>
+                        <input type="text" class="form-control" id="penerima" name="penerima" value="admin" readonly required>
                     </div>
                     <div class="col-md-6">
                         <label for="tanggal_masuk" class="form-label">Tanggal Masuk *</label>
@@ -80,7 +80,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="stok" class="form-label">Stok Masuk *</label>
-                        <input type="number" class="form-control" id="stok" name="stok" min="1"
+                        <input type="number" step="0.001" class="form-control" id="stok" name="stok"
                             required>
                     </div>
                     <div class="col-md-1 d-flex align-items-end">
@@ -148,7 +148,7 @@
                 return;
             }
 
-            if (parseInt(stok) <= 0) {
+            if (parseFloat(stok) <= 0) {
                 alert('Stok harus lebih dari 0!');
                 return;
             }
@@ -180,7 +180,7 @@
                 suplier_nama: suplierNama,
                 bahan_baku_nama: bahanBakuNama,
                 id_bahan_baku: idBahanBaku,
-                stok: stok
+                stok: parseFloat(stok)
             };
             itemsData.push(newItem);
 
@@ -217,7 +217,8 @@
                             <input type="number" 
                                    class="form-control form-control-sm stok-input" 
                                    value="${item.stok}" 
-                                   min="1" 
+                                   min="0.001"
+                                   step="0.001"
                                    data-item-id="${item.id}"
                                    onchange="updateStokItem(${item.id}, this.value)">
                         </td>
@@ -236,7 +237,7 @@
         // Update stok item di tabel
         function updateStokItem(itemId, newStok) {
             // Validasi input
-            if (!newStok || parseInt(newStok) <= 0) {
+            if (!newStok || parseFloat(newStok) <= 0) {
                 alert('Stok harus lebih dari 0!');
                 // Reset ke nilai sebelumnya
                 const input = document.querySelector(`input[data-item-id="${itemId}"]`);
@@ -250,7 +251,7 @@
             // Update data di array
             const itemIndex = itemsData.findIndex(item => item.id === itemId);
             if (itemIndex !== -1) {
-                itemsData[itemIndex].stok = parseInt(newStok);
+                itemsData[itemIndex].stok = parseFloat(newStok);
             }
         }
 

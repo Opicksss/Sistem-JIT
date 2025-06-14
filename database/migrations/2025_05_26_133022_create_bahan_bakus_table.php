@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('jenis');
             $table->string('satuan');
             $table->decimal('harga', 12, 2);
-            $table->integer('stok')->default(0);
+            $table->decimal('stok', 10, 3)->default(0);
             $table->string('gambar')->nullable();
             $table->timestamps();
         });

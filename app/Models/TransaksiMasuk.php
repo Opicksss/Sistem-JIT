@@ -18,11 +18,13 @@ class TransaksiMasuk extends Model
         'bahan_baku_id',
         'stok',
         'tanggal_masuk',
+        'biaya_pemesanan',
     ];
 
    protected $casts = [
         'tanggal_masuk' => 'date',
-        'stok' => 'integer'
+        'stok' => 'decimal:3',
+        'biaya_pemesanan' => 'decimal:2',
     ];
 
     // Relasi dengan suplier
