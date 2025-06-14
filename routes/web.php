@@ -93,7 +93,6 @@ Route::middleware(['auth'])->group(function () {
 
      Route::middleware('menuAkses:hasil')->group(function () {
        Route::get('hasil', [JITController::class, 'index'])->name('hasil.index');
-       Route::get('hasilUdang', [JITController::class, 'indexUdang'])->name('hasil.udang');
     });
 
     Route::middleware(['userAkses:admin', 'menuAkses:acount'])->group(function () {
