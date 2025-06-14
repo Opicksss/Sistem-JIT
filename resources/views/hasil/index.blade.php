@@ -73,7 +73,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <h1>Menghitung kuantitas pemesanan bahan baku</h1>
+                    <!-- <h1>Menghitung kuantitas pemesanan bahan baku</h1>
                     <table class="table table-bordered table-striped align-middle text-center mt-4">
                         <thead class="table-secondary">
                             <tr>
@@ -109,7 +109,7 @@
                         </tbody>
                     </table>
                     <h1>Biaya Pemesanan {{ $totalBiayaPemesanan }}</h1>
-                    <h1>Biaya Penyimpanan {{ $totalBiayaPenyimpanan }}</h1>
+                    <h1>Biaya Penyimpanan {{ $totalBiayaPenyimpanan }}</h1> -->
                 </div>
             </div>
         </div>
