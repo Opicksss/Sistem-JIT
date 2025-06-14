@@ -8,6 +8,7 @@ use App\Http\Controllers\SuplierController;
 use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailLaporanController;
+use App\Http\Controllers\JITController;
 use App\Http\Controllers\TransaksiMasukController;
 use App\Http\Controllers\TransaksiKeluarController;
 
@@ -88,6 +89,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware('menuAkses:grafik_transaksi_keluar')->group(function () {
         Route::get('grafik_transaksi_keluar', [GrafikController::class, 'keluar'])->name('grafik.keluar');
+    });
+
+     Route::middleware('menuAkses:hasil')->group(function () {
+       Route::get('hasil', [JITController::class, 'index'])->name('hasil.index');
+       Route::get('hasilUdang', [JITController::class, 'indexUdang'])->name('hasil.udang');
     });
 
     Route::middleware(['userAkses:admin', 'menuAkses:acount'])->group(function () {

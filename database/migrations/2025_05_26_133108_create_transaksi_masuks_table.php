@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('penerima');
             $table->foreignId('suplier_id')->constrained('supliers')->onDelete('cascade');
             $table->foreignId('bahan_baku_id')->constrained('bahan_bakus')->onDelete('cascade');
-            $table->integer('stok')->default(0);
+            $table->decimal('stok', 10, 3)->default(0);
             $table->date('tanggal_masuk');
+            $table->bigInteger('biaya_pemesanan')->default(0);
             $table->timestamps();
         });
     }

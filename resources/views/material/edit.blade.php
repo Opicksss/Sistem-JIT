@@ -47,14 +47,13 @@
                         <select id="satuan" name="satuan" class="form-select" required>
                             <option disabled>Pilih Satuan...</option>
                             <option value="Kg" {{ $bahanBaku->satuan == 'Kg' ? 'selected' : '' }}>Kg</option>
-                            <option value="Gram" {{ $bahanBaku->satuan == 'Gram' ? 'selected' : '' }}>Gram</option>
-                            <option value="Pcs" {{ $bahanBaku->satuan == 'Pcs' ? 'selected' : '' }}>Pcs</option>
+                           
                         </select>
                     </div>
 
                     <div class="col-md-12">
                         <label for="stok" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="stok" name="stok" value="{{ $bahanBaku->stok }}" required>
+                        <input type="number" step="0.001" class="form-control" id="stok" name="stok" value="{{ $bahanBaku->stok }}" required>
                     </div>
 
                     <div class="col-md-12">

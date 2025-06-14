@@ -16,10 +16,10 @@ class BahanBaku extends Model
         'stok'
     ];
 
-    protected $casts = [
-        'harga' => 'decimal:2',
-        'stok' => 'integer'
-    ];
+    // protected $casts = [
+    //     'harga' => 'decimal:2',
+    //     'stok' => 'decimal:3',
+    // ];
 
     // Relasi dengan transaksi masuk
     public function transaksiMasuks()

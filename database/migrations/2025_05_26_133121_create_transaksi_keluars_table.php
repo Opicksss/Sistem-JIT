@@ -15,16 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('id_transaksi');
             $table->string('penerima');
-            $table->foreignId('bahan_baku_id')
-                ->constrained('bahan_bakus')
-                ->onDelete('cascade');
-            $table->foreignId('suplier_id')
-                ->constrained('supliers')
-                ->onDelete('cascade');
-            $table->integer('stok');
+            $table->foreignId('bahan_baku_id')->constrained('bahan_bakus')->onDelete('cascade');
+            $table->foreignId('suplier_id')->constrained('supliers')->onDelete('cascade');
+            $table->decimal('stok', 10, 3)->default(0);
             $table->date('tanggal_keluar');
-            $table->integer('stok_awal');
-            $table->integer('sisa');
+            $table->decimal('stok_awal', 10, 3)->default(0);
+            $table->decimal('sisa', 10, 3)->default(0); 
+            $table->bigInteger('biaya_penyimpanan')->default(0);
             $table->timestamps();
         });
     }

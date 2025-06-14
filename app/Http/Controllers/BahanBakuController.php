@@ -30,7 +30,7 @@ class BahanBakuController extends Controller
                 'jenis'         => 'required',
                 'satuan'        => 'required',
                 'harga'         => 'required|numeric',
-                'stok'          => 'required|integer',
+                'stok'          => 'required|numeric',
                 'gambar'        => 'nullable|image|max:2048',
             ]);
 
@@ -63,7 +63,7 @@ class BahanBakuController extends Controller
                 'jenis'  => 'required',
                 'satuan' => 'required',
                 'harga'  => 'required|numeric',
-                'stok'   => 'required|integer',
+                'stok'   => 'required|numeric',
                 'gambar' => 'nullable|image|max:2048',
             ]);
 

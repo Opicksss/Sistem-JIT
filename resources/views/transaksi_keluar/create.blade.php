@@ -16,14 +16,14 @@
     </div>
 
     <!-- Alert Messages -->
-    @if(session('success'))
+    @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
 
-    @if(session('error'))
+    @if (session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -34,7 +34,7 @@
         <div class="card">
             <div class="card-body p-4">
                 <h5 class="mb-4">Form Transaksi Keluar</h5>
-                
+
                 <!-- Form Header Transaksi -->
                 <form id="form-header" class="row g-3">
                     @csrf
@@ -44,7 +44,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="penerima" class="form-label">Penerima *</label>
-                        <input type="text" class="form-control" id="penerima" name="penerima" required>
+                        <input type="text" class="form-control" id="penerima" name="penerima" value="admin" readonly required>
                     </div>
                     <div class="col-md-6">
                         <label for="tanggal_keluar" class="form-label">Tanggal Keluar *</label>
@@ -68,13 +68,13 @@
                     </div>
                     <div class="col-md-4">
                         <label for="bahan_baku_id" class="form-label">Nama Bahan Baku *</label>
-                        <select class="form-control" id="bahan_baku_id" name="bahan_baku_id" required onchange="checkStokTersedia()">
+                        <select class="form-control" id="bahan_baku_id" name="bahan_baku_id" required
+                            onchange="checkStokTersedia()">
                             <option value="">-- Pilih Bahan Baku --</option>
                             @foreach ($bahan_bakus as $bahan_baku)
-                                <option value="{{ $bahan_baku->id }}" 
-                                        data-nama="{{ $bahan_baku->nama }}" 
-                                        data-id-bahan="{{ $bahan_baku->id_bahan_baku }}"
-                                        data-stok="{{ $bahan_baku->stok }}">
+                                <option value="{{ $bahan_baku->id }}" data-nama="{{ $bahan_baku->nama }}"
+                                    data-id-bahan="{{ $bahan_baku->id_bahan_baku }}"
+                                    data-stok="{{ $bahan_baku->stok }}">
                                     {{ $bahan_baku->nama }} (Stok: {{ $bahan_baku->stok }} {{ $bahan_baku->satuan }})
                                 </option>
                             @endforeach
@@ -82,7 +82,8 @@
                     </div>
                     <div class="col-md-3">
                         <label for="stok" class="form-label">Stok Keluar *</label>
-                        <input type="number" class="form-control" id="stok" name="stok" min="1" required oninput="validateStokInput()">
+                        <input type="number" class="form-control" id="stok" name="stok" min="0.001"
+                            step="0.001" required oninput="validateStokInput()">
                         <div id="stok-info" class="form-text"></div>
                     </div>
                     <div class="col-md-1 d-flex align-items-end">
@@ -130,7 +131,8 @@
     </div>
 
     <!-- Form untuk submit ke database -->
-    <form id="form-final-submit" action="{{ route('transaksi_keluar.store') }}" method="POST" style="display: none;">
+    <form id="form-final-submit" action="{{ route('transaksi_keluar.store') }}" method="POST"
+        style="display: none;">
         @csrf
     </form>
 
@@ -144,10 +146,10 @@
             const bahanBakuSelect = document.getElementById('bahan_baku_id');
             const stokInput = document.getElementById('stok');
             const stokInfo = document.getElementById('stok-info');
-            
+
             if (bahanBakuSelect.value) {
                 const selectedOption = bahanBakuSelect.options[bahanBakuSelect.selectedIndex];
-                currentStokTersedia = parseInt(selectedOption.getAttribute('data-stok'));
+                currentStokTersedia = parseFloat(selectedOption.getAttribute('data-stok'));
                 stokInput.max = currentStokTersedia;
                 stokInfo.innerHTML = `<span class="text-info">Stok tersedia: ${currentStokTersedia}</span>`;
             } else {
@@ -155,7 +157,7 @@
                 stokInput.max = '';
                 stokInfo.innerHTML = '';
             }
-            
+
             validateStokInput();
         }
 
@@ -163,17 +165,19 @@
         function validateStokInput() {
             const stokInput = document.getElementById('stok');
             const stokInfo = document.getElementById('stok-info');
-            const stokValue = parseInt(stokInput.value) || 0;
-            
+            const stokValue = parseFloat(stokInput.value) || 0;
+
             if (currentStokTersedia === 0) {
                 return;
             }
-            
+
             if (stokValue > currentStokTersedia) {
-                stokInfo.innerHTML = `<span class="text-danger">Stok tidak mencukupi! Tersedia: ${currentStokTersedia}</span>`;
+                stokInfo.innerHTML =
+                    `<span class="text-danger">Stok tidak mencukupi! Tersedia: ${currentStokTersedia}</span>`;
                 stokInput.classList.add('is-invalid');
             } else if (stokValue > 0) {
-                stokInfo.innerHTML = `<span class="text-success">Stok mencukupi (${currentStokTersedia - stokValue} akan tersisa)</span>`;
+                stokInfo.innerHTML =
+                    `<span class="text-success">Stok mencukupi (${currentStokTersedia - stokValue} akan tersisa)</span>`;
                 stokInput.classList.remove('is-invalid');
             } else {
                 stokInfo.innerHTML = `<span class="text-info">Stok tersedia: ${currentStokTersedia}</span>`;
@@ -194,12 +198,12 @@
                 return;
             }
 
-            if (parseInt(stok) <= 0) {
+            if (parseFloat(stok) <= 0) {
                 alert('Stok harus lebih dari 0!');
                 return;
             }
 
-            if (parseInt(stok) > currentStokTersedia) {
+            if (parseFloat(stok) > currentStokTersedia) {
                 alert(`Stok tidak mencukupi! Stok tersedia: ${currentStokTersedia}`);
                 return;
             }
@@ -207,14 +211,14 @@
             // Ambil data dari select option
             const suplierOption = document.querySelector(`#suplier_id option[value="${suplierId}"]`);
             const bahanBakuOption = document.querySelector(`#bahan_baku_id option[value="${bahanBakuId}"]`);
-            
+
             const suplierNama = suplierOption.textContent;
             const bahanBakuNama = bahanBakuOption.getAttribute('data-nama');
             const idBahanBaku = bahanBakuOption.getAttribute('data-id-bahan');
             const stokTersedia = parseInt(bahanBakuOption.getAttribute('data-stok'));
 
             // Cek duplikasi item
-            const isDuplicate = itemsData.some(item => 
+            const isDuplicate = itemsData.some(item =>
                 item.suplier_id === suplierId && item.bahan_baku_id === bahanBakuId
             );
 
@@ -232,19 +236,19 @@
                 suplier_nama: suplierNama,
                 bahan_baku_nama: bahanBakuNama,
                 id_bahan_baku: idBahanBaku,
-                stok_tersedia: stokTersedia,
-                stok: stok
+                stok_tersedia: parseFloat(stokTersedia),
+                stok: parseFloat(stok)
             };
             itemsData.push(newItem);
 
             // Update tabel
             updateTableSementara();
-            
+
             // Reset form item
             formItem.reset();
             currentStokTersedia = 0;
             document.getElementById('stok-info').innerHTML = '';
-            
+
             // Enable tombol simpan
             document.getElementById('btn-simpan-transaksi').disabled = false;
         });
@@ -252,9 +256,10 @@
         // Update tabel sementara
         function updateTableSementara() {
             const tbody = document.querySelector('#table-sementara tbody');
-            
+
             if (itemsData.length === 0) {
-                tbody.innerHTML = '<tr id="empty-row"><td colspan="7" class="text-center text-muted">Belum ada item yang ditambahkan</td></tr>';
+                tbody.innerHTML =
+                    '<tr id="empty-row"><td colspan="7" class="text-center text-muted">Belum ada item yang ditambahkan</td></tr>';
                 document.getElementById('btn-simpan-transaksi').disabled = true;
                 return;
             }
@@ -269,13 +274,14 @@
                         <td>${item.suplier_nama}</td>
                         <td>${item.stok_tersedia}</td>
                         <td style="width: 250px;">
-                            <input type="number" 
-                                   class="form-control form-control-sm stok-input" 
-                                   value="${item.stok}" 
-                                   min="1" 
-                                   max="${item.stok_tersedia}"
-                                   data-item-id="${item.id}"
-                                   onchange="updateStokItem(${item.id}, this.value, ${item.stok_tersedia})">
+                           <input type="number" 
+                            class="form-control form-control-sm stok-input" 
+                            value="${item.stok}" 
+                            min="0.001" 
+                            step="0.001" 
+                            max="${item.stok_tersedia}"
+                            data-item-id="${item.id}"
+                            onchange="updateStokItem(${item.id}, this.value, ${item.stok_tersedia})">
                         </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-danger" onclick="hapusItem(${item.id})">
@@ -285,14 +291,14 @@
                     </tr>
                 `;
             });
-            
+
             tbody.innerHTML = html;
         }
 
         // Update stok item di tabel
         function updateStokItem(itemId, newStok, maxStok) {
             // Validasi input
-            if (!newStok || parseInt(newStok) <= 0) {
+            if (!newStok || parseFloat(newStok) <= 0) {
                 alert('Stok harus lebih dari 0!');
                 // Reset ke nilai sebelumnya
                 const input = document.querySelector(`input[data-item-id="${itemId}"]`);
@@ -303,13 +309,13 @@
                 return;
             }
 
-            if (parseInt(newStok) > maxStok) {
+            if (parseFloat(newStok) > maxStok) {
                 alert(`Stok tidak mencukupi! Maksimal: ${maxStok}`);
                 // Reset ke nilai sebelumnya
                 const input = document.querySelector(`input[data-item-id="${itemId}"]`);
                 const item = itemsData.find(item => item.id === itemId);
                 if (item) {
-                    input.value = item.stok;
+                    input.value = parseFloat(newStok);
                 }
                 return;
             }
@@ -317,7 +323,7 @@
             // Update data di array
             const itemIndex = itemsData.findIndex(item => item.id === itemId);
             if (itemIndex !== -1) {
-                itemsData[itemIndex].stok = parseInt(newStok);
+                itemsData[itemIndex].stok = parseFloat(newStok);
             }
         }
 
@@ -349,7 +355,7 @@
             if (confirm('Yakin ingin menyimpan transaksi keluar ini? Stok bahan baku akan berkurang.')) {
                 // Buat form untuk submit
                 const formSubmit = document.getElementById('form-final-submit');
-                
+
                 // Tambah field header
                 formSubmit.innerHTML = `
                     @csrf
