@@ -55,11 +55,13 @@ Metode JIT menunjukkan hasil penghematan biaya dan frekuensi pengiriman yang leb
 
 ## 📂 Struktur Direktori Utama
 
-📁 app/
-📁 public/
-📁 resources/
-└── views/
-📁 routes/
-📁 database/
-└── migrations/
+```
+📁 app
+📁 public
+📁 resources
+  └── views
+📁 routes
+📁 database
+  └── migrations
 📄 README.md
+```
