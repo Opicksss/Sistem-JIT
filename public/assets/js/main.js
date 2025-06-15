@@ -149,8 +149,12 @@ $(function () {
     }).addClass("").parent().addClass("mm-active"); o.is("li");) o = o.parent("").addClass("mm-show").parent("").addClass("mm-active")
   });
 
+});
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Inisialisasi TransaksiMasuk
+    window.transaksiMasuk = new TransaksiMasuk();
 });
 
 
