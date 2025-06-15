@@ -38,11 +38,11 @@ class TransaksiKeluarController extends Controller
         try {
             DB::beginTransaction();
 
-            // Ambil semua bahan baku yang terlibat dengan lock
+            
             $bahanBakuIds = collect($request->items)->pluck('bahan_baku_id')->unique();
             $bahanBakus = BahanBaku::lockForUpdate()->whereIn('id', $bahanBakuIds)->get()->keyBy('id');
 
-            // Validasi stok tersedia untuk setiap item dengan data yang sudah di-lock
+            
             foreach ($request->items as $item) {
                 $bahanBaku = $bahanBakus->get($item['bahan_baku_id']);
                 if (!$bahanBaku) {
@@ -54,22 +54,22 @@ class TransaksiKeluarController extends Controller
                 }
             }
 
-            // Proses setiap item dan kurangi stok
+            
             foreach ($request->items as $item) {
                 $bahanBaku = $bahanBakus->get($item['bahan_baku_id']);
-                $stokAwal = $bahanBaku->stok; // Stok sebelum dikurangi
+                $stokAwal = $bahanBaku->stok; 
 
-                // Kurangi stok terlebih dahulu
+                
                 $bahanBaku->stok -= (float) $item['stok'];
                 $bahanBaku->save();
 
-                $sisa = $bahanBaku->stok; // Stok setelah dikurangi
+                $sisa = $bahanBaku->stok; 
 
-                // Hitung biaya penyimpanan = stok × (harga ÷ 2)
-                $biayaPenyimpananPerUnit = $bahanBaku->harga / 2; // Setengah dari harga bahan baku
+                
+                $biayaPenyimpananPerUnit = $bahanBaku->harga / 2; 
                 $totalBiayaPenyimpanan = $sisa * $biayaPenyimpananPerUnit;
 
-                // Buat transaksi keluar
+                
                 TransaksiKeluar::create([
                     'id_transaksi' => $request->id_transaksi,
                     'penerima' => $request->penerima,
@@ -95,96 +95,96 @@ class TransaksiKeluarController extends Controller
         }
     }
 
-    // public function show($id)
-    // {
-    //     $transaksi_keluar = TransaksiKeluar::with(['suplier', 'bahanBaku'])->findOrFail($id);
-    //     return view('transaksi_keluar.show', compact('transaksi_keluar'));
-    // }
+    
+    
+    
+    
+    
 
-    // public function edit($id)
-    // {
-    //     $transaksi_keluar = TransaksiKeluar::findOrFail($id);
-    //     $supliers = Suplier::all();
-    //     $bahan_bakus = BahanBaku::all();
-    //     return view('transaksi_keluar.edit', compact('transaksi_keluar', 'supliers', 'bahan_bakus'));
-    // }
+    
+    
+    
+    
+    
+    
+    
 
-    // public function update(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'penerima' => 'required|string',
-    //         'tanggal_keluar' => 'required|date',
-    //         'suplier_id' => 'required|exists:supliers,id',
-    //         'bahan_baku_id' => 'required|exists:bahan_bakus,id',
-    //         'stok' => 'required|numeric',
-    //     ]);
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    //     try {
-    //         DB::beginTransaction();
+    
+    
 
-    //         $transaksi = TransaksiKeluar::lockForUpdate()->findOrFail($id);
-    //         $oldStok = $transaksi->stok;
-    //         $oldBahanBakuId = $transaksi->bahan_baku_id;
-    //         $newStok = (float) $request->stok;
-    //         $newBahanBakuId = $request->bahan_baku_id;
+    
+    
+    
+    
+    
 
-    //         // Jika bahan baku berbeda, perlu handle 2 bahan baku
-    //         if ($oldBahanBakuId != $newBahanBakuId) {
-    //             // Kembalikan stok ke bahan baku lama
-    //             $oldBahanBaku = BahanBaku::lockForUpdate()->find($oldBahanBakuId);
-    //             $oldBahanBaku->stok += $oldStok;
-    //             $oldBahanBaku->save();
+    
+    
+    
+    
+    
+    
 
-    //             // Ambil bahan baku baru dan validasi stok
-    //             $newBahanBaku = BahanBaku::lockForUpdate()->find($newBahanBakuId);
-    //             if ($newBahanBaku->stok < $newStok) {
-    //                 throw new \Exception("Stok {$newBahanBaku->nama} tidak mencukupi! Stok tersedia: {$newBahanBaku->stok}, diminta: {$newStok}");
-    //             }
+    
+    
+    
+    
+    
 
-    //             $stokAwal = $newBahanBaku->stok;
-    //             $newBahanBaku->stok -= $newStok;
-    //             $newBahanBaku->save();
-    //             $sisa = $newBahanBaku->stok;
-    //         } else {
-    //             // Bahan baku sama, hanya update jumlah stok
-    //             $bahanBaku = BahanBaku::lockForUpdate()->find($oldBahanBakuId);
+    
+    
+    
+    
+    
+    
+    
 
-    //             // Kembalikan stok lama terlebih dahulu
-    //             $bahanBaku->stok += $oldStok;
+    
+    
 
-    //             // Validasi stok baru
-    //             if ($bahanBaku->stok < $newStok) {
-    //                 throw new \Exception("Stok {$bahanBaku->nama} tidak mencukupi! Stok tersedia: {$bahanBaku->stok}, diminta: {$newStok}");
-    //             }
+    
+    
+    
+    
 
-    //             $stokAwal = $bahanBaku->stok;
-    //             $bahanBaku->stok -= $newStok;
-    //             $bahanBaku->save();
-    //             $sisa = $bahanBaku->stok;
-    //         }
+    
+    
+    
+    
+    
 
-    //         // Update transaksi
-    //         $transaksi->update([
-    //             'penerima' => $request->penerima,
-    //             'suplier_id' => $request->suplier_id,
-    //             'bahan_baku_id' => $newBahanBakuId,
-    //             'stok' => $newStok,
-    //             'stok_awal' => $stokAwal,
-    //             'sisa' => $sisa,
-    //             'tanggal_keluar' => $request->tanggal_keluar,
-    //         ]);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    //         DB::commit();
+    
 
-    //         return redirect()->route('transaksi_keluar.index')
-    //             ->with('success', 'Transaksi keluar berhasil diupdate!');
-    //     } catch (\Exception $e) {
-    //         DB::rollback();
-    //         return redirect()->back()
-    //             ->withInput()
-    //             ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-    //     }
-    // }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public function destroy($id)
     {
@@ -194,11 +194,11 @@ class TransaksiKeluarController extends Controller
             $transaksi = TransaksiKeluar::lockForUpdate()->findOrFail($id);
             $bahanBaku = BahanBaku::lockForUpdate()->find($transaksi->bahan_baku_id);
 
-            // Kembalikan stok ke bahan baku
+            
             $bahanBaku->stok += $transaksi->stok;
             $bahanBaku->save();
 
-            // Hapus transaksi
+            
             $transaksi->delete();
 
             DB::commit();
@@ -212,7 +212,7 @@ class TransaksiKeluarController extends Controller
         }
     }
 
-    // Halaman Sisa Stok
+    
     public function sisa()
     {
         $transaksi_keluars = TransaksiKeluar::with(['suplier', 'bahanBaku'])
@@ -223,12 +223,12 @@ class TransaksiKeluarController extends Controller
         return view('transaksi_keluar.sisa', compact('transaksi_keluars'));
     }
 
-    // API untuk mendapatkan data bahan baku dengan stok real-time
+    
     public function getBahanBaku($id)
     {
         $bahanBaku = BahanBaku::find($id);
         if ($bahanBaku) {
-            // Refresh untuk mendapatkan stok terbaru
+            
             $bahanBaku->refresh();
 
             return response()->json([
@@ -248,7 +248,7 @@ class TransaksiKeluarController extends Controller
         ]);
     }
 
-    // API untuk mendapatkan data suplier
+    
     public function getSuplier($id)
     {
         $suplier = Suplier::find($id);
@@ -268,7 +268,7 @@ class TransaksiKeluarController extends Controller
         ]);
     }
 
-    // API untuk cek stok tersedia dengan data real-time
+    
     public function checkStok($bahanBakuId, $jumlah)
     {
         $bahanBaku = BahanBaku::find($bahanBakuId);
@@ -279,7 +279,7 @@ class TransaksiKeluarController extends Controller
             ]);
         }
 
-        // Refresh untuk mendapatkan stok terbaru
+        
         $bahanBaku->refresh();
         $stokCukup = $bahanBaku->stok >= $jumlah;
 
