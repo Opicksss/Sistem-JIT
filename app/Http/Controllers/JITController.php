@@ -47,7 +47,7 @@ class JITController extends Controller
             ->whereYear('tanggal_keluar', $tahun)
             ->avg('sisa');
 
-        
+
          $na = ($Q > 0 && $a > 0)
             ? ceil(pow(($Q / (2 * $a)), 2))
          : 0;
