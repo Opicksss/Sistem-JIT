@@ -1,5 +1,5 @@
+<x-slot:title>Laporan Transaksi Keluar</x-slot:title>
 <x-layout>
-     <x-slot:title>Laporan Transaksi Keluar</x-slot:title>
     <div class="mb-3 text-uppercase breadcrumb-title">DAFTAR LAPORAN BAHAN BAKU Keluar</div>
     <div class="page-content">
         <div class="card radius-10">
@@ -8,7 +8,7 @@
                     <div>
                         <h5 class="mb-0">Laporan</h5>
                     </div>
-                   
+
                 </div>
             </div>
 
@@ -35,7 +35,7 @@
                                          <div class="d-flex gap-2 justify-content-center">
                                             <a href="{{ route('detail_laporan_keluar.show', $item->id) }}"
                                                 class="btn btn-sm btn-info">
-                                                <i class="bx bx-show"></i> 
+                                                <i class="bx bx-show"></i>
                                             </a>
                                         </div>
                                     </td>
