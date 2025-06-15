@@ -73,43 +73,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <h1>Menghitung kuantitas pemesanan bahan baku</h1>
-                    <table class="table table-bordered table-striped align-middle text-center mt-4">
-                        <thead class="table-secondary">
-                            <tr>
-                                <th>Total Biaya pesan</th>
-                                <th>frekuensi</th>
-                                <th>O</th>
-                                <th>Q</th>
-                                <th>T</th>
-                                <th>a</th>
-                                <th>Na</th>
-                                <th>Qn</th>
-                                <th>q</th>
-                                <th>n</th>
-                                <th>Biaya Persediaan</th>
-                                <th>TIJ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{ $totalBiayaPemesanan ?? '-' }}</td>
-                                <td>{{ $jumlahPemesanan ?? '-' }}</td>
-                                <td>{{ number_format($O, 0, ',', '.') }}</td>
-                                <td>{{ number_format($Q, 3, ',', '.') }}</td>
-                                <td>{{ $T }}</td>
-                                <td>{{ number_format($a, 3, ',', '.') }}</td>
-                                <td>{{ $na }}</td>
-                                <td>{{ number_format($Qn, 2, ',', '.') }}</td>
-                                <td>{{ number_format($q, 3, ',', '.') }}</td>
-                                <td>{{ $n}}</td>
-                                <td>{{ $totalBiaya }}</td>
-                                <td>{{ $TIJ }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <h1>Biaya Pemesanan {{ $totalBiayaPemesanan }}</h1>
-                    <h1>Biaya Penyimpanan {{ $totalBiayaPenyimpanan }}</h1> -->
+                    
                 </div>
             </div>
         </div>

@@ -74,7 +74,7 @@ class JITController extends Controller
         // (4) Total biaya persediaan periode 2024 Kondisi Aktual
         $totalBiaya = $totalBiayaPenyimpanan + $totalBiayaPemesanan;
 
-        return view('hasil.index', compact('D', 'O', 'C', 'Q', 'T', 'na', 'a', 'Qn', 'q', 'n', 'TIJ', 'pembagi', 'totalBiaya', 'akarNa', 'bahanBaku', 'totalBiayaPemesanan', 'totalBiayaPenyimpanan', 'jumlahPemesanan', 'tahun'));
+        return view('hasil.index', compact('D', 'Q', 'na', 'a', 'Qn', 'q', 'n', 'TIJ', 'totalBiaya',  'bahanBaku',  'jumlahPemesanan', 'tahun'));
     }
 
 }
