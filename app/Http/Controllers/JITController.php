@@ -10,8 +10,8 @@ class JITController extends Controller
 {
     public function index()
     {
-        $tahun = request()->get('tahun', 2024);
-        $bahanBakuId = request()->get('bahan_baku_id', 2);
+        $tahun = request()->get('tahun', date('Y'));
+        $bahanBakuId = request()->get('bahan_baku_id', BahanBaku::first()->id ?? null);
 
         $bahanBakuList = BahanBaku::all();
         $bahanBaku = BahanBaku::find($bahanBakuId);
