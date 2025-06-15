@@ -54,3 +54,12 @@ Metode JIT menunjukkan hasil penghematan biaya dan frekuensi pengiriman yang leb
 - **User (Staff/Pegawai):** Akses transaksi dan laporan, tanpa manajemen akun
 
 ## 📂 Struktur Direktori Utama
+
+📁 app/
+📁 public/
+📁 resources/
+└── views/
+📁 routes/
+📁 database/
+└── migrations/
+📄 README.md
