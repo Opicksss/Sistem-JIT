@@ -75,7 +75,8 @@
 
                             <form id="filterForm" method="GET" action="{{ route('hasil.index') }}"
                                 class="d-flex gap-2 mb-0">
-                                <select name="bahan_baku_id" id="bahan_baku_id" class="form-select form-select-sm" style="width: 200px">
+                                <select name="bahan_baku_id" id="bahan_baku_id" class="form-select form-select-sm"
+                                    style="width: 200px">
                                     @foreach ($bahanBakuList as $b)
                                         <option value="{{ $b->id }}"
                                             {{ $b->id == $bahanBaku->id ? 'selected' : '' }}>
@@ -144,7 +145,40 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="card radius-10">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Frekuensi pemesanan tahun {{ $tahun }} </h5>
+                        </div>
+                    </div>
+                    <div class="card-body" enctype="multipart/form-data">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle text-center">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th style="width:5%;">No</th>
+                                        <th style="width:50%;">Frekuensi</th>
+                                        <th style="width:45%;">Bulan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($bulanPemesanan as $key => $bulan)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>Pemesanan {{ $key + 1 }}</td>
+                                            <td>{{ ucfirst($bulan) }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3">Tidak ada frekuensi pemesanan yang dihitung</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -193,7 +227,7 @@
             document.getElementById('filterForm').submit();
         });
     </script>
-    
+
     <x-script></x-script>
 
 
