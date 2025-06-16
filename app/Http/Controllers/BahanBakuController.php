@@ -23,6 +23,7 @@ class BahanBakuController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         try {
             $validated = $request->validate([
                 'id_bahan_baku' => 'required|unique:bahan_bakus',
@@ -33,6 +34,7 @@ class BahanBakuController extends Controller
                 'stok'          => 'required|numeric',
                 'gambar'        => 'nullable|image|max:2048',
             ]);
+            // dd($validated);
 
             if ($request->hasFile('gambar')) {
                 $gambar = $request->file('gambar')->store('gambar_bahan', 'public');

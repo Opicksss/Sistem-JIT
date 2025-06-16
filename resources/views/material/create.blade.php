@@ -29,13 +29,11 @@
                         <label for="nama" class="form-label">Nama Bahan</label>
                         <input type="text" class="form-control" id="nama" name="nama" required>
                     </div>
-                    <div class="col-md-12">
+
+                    {{-- jenis --}}
+                   <div class="col-md-12">
                         <label for="jenis" class="form-label">Jenis</label>
-                        <select id="jenis" name="jenis" class="form-select" required>
-                            <option selected disabled>Pilih Jenis...</option>
-                            <option value="Bahan Baku">Bahan Baku</option>
-                            <option value="Bahan Pendukung">Bahan Pendukung</option>
-                        </select>
+                        <input type="text" class="form-control" id="jenis" name="jenis" required>
                     </div>
                     <div class="col-md-12">
                         <label for="satuan" class="form-label">Satuan</label>

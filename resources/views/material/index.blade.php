@@ -54,10 +54,9 @@
                                     <td class="text-end">{{ $item->stok }}</td>
                                     <td class="text-end">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
                                     <td class="text-center">
-                                        @if ($item->gambar)
+                                        @if ($item->gambar && file_exists(public_path('storage/' . $item->gambar)))
                                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gambar Bahan Baku"
-                                                class="img-fluid" style="max-width: 100px; max-height: 100px;"
-                                                onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<span class=\'text-muted\'>Tidak ada</span>');">
+                                                class="img-fluid" style="max-width: 100px; max-height: 100px;">
                                         @else
                                             <span class="text-muted">Tidak ada</span>
                                         @endif

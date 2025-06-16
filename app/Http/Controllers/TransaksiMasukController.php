@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
     {
         public function index()
         {
-            $transaksi_masuks = TransaksiMasuk::with(['suplier', 'bahanBaku'])->get();
+            $transaksi_masuks = TransaksiMasuk::with(['suplier', 'bahanBaku'])->latest()->get();
             return view('transaksi_masuk.index', compact('transaksi_masuks'));
         }
 

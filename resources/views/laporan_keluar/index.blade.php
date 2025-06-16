@@ -1,5 +1,6 @@
-<x-slot:title>Laporan Transaksi Keluar</x-slot:title>
+
 <x-layout>
+    <x-slot:title>Laporan Transaksi Keluar</x-slot:title>
     <div class="mb-3 text-uppercase breadcrumb-title">DAFTAR LAPORAN BAHAN BAKU Keluar</div>
     <div class="page-content">
         <div class="card radius-10">

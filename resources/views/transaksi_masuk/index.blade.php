@@ -51,7 +51,7 @@
                                     <td>{{ $item->suplier->nama }}</td>
                                     <td>{{ $item->bahanBaku->nama }}</td>
                                     <td class="text-end">{{ $item->stok }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->format('d M Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal_masuk)->locale('id')->format('d M Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

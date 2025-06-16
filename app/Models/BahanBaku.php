@@ -10,6 +10,9 @@ class BahanBaku extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id_bahan_baku',
+        'jenis',
+        'gambar',
         'nama',
         'satuan',
         'harga',
