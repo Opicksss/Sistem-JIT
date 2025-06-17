@@ -37,28 +37,33 @@ class JITController extends Controller
         $TIJ = $n > 0 && $T !== null ? round((1 / sqrt($n)) * $T, 2) : null;
         $totalBiaya = $totalBiayaPemesanan + $totalBiayaPenyimpanan;
 
-        // Hitung bulan pemesanan
-        $bulanPemesanan = [];
-        if ($n > 0) {
-            for ($i = 0; $i < $n; $i++) {
-                $bulanKe = round($i * (12 / $n) + 1);
-                if ($bulanKe > 12) {
-                    $bulanKe = 12;
-                }
-                $bulanPemesanan[] = $bulanKe;
-            }
-            // Hilangkan duplikat & urutkan
-            $bulanPemesanan = array_unique($bulanPemesanan);
-            sort($bulanPemesanan);
+        $bulanList = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
 
-            // Konversi ke nama bulan
-            $bulanPemesanan = array_map(function ($bln) {
-                return ucfirst(\Carbon\Carbon::create()->month($bln)->locale('id')->monthName);
-            }, $bulanPemesanan);
+        $bulanPemesanan = array_fill(1, 12, 0);
+
+        for ($i = 0; $i < $n; $i++) {
+            $bulanKe = round($i * (12 / $n) + 1);
+            if ($bulanKe > 12) {
+                $bulanKe = 12;
+            }
+            $bulanPemesanan[$bulanKe] = 1;
         }
 
         $tahunList = TransaksiKeluar::selectRaw('YEAR(tanggal_keluar) as tahun')->distinct()->pluck('tahun')->toArray();
 
-        return view('hasil.index', compact('D', 'Q', 'na', 'a', 'Qn', 'q', 'n', 'TIJ', 'totalBiaya', 'bahanBaku', 'jumlahPemesanan', 'tahun', 'tahunList', 'bahanBakuList', 'bulanPemesanan'));
+        return view('hasil.index', compact('D', 'Q', 'na', 'a', 'Qn', 'q', 'n', 'TIJ', 'totalBiaya', 'bulanList', 'bahanBaku', 'jumlahPemesanan', 'tahun', 'tahunList', 'bahanBakuList', 'bulanPemesanan'));
     }
 }

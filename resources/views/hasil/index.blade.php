@@ -160,23 +160,22 @@
                             <table class="table table-bordered table-striped align-middle text-center">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th style="width:5%;">No</th>
-                                        <th style="width:50%;">Frekuensi</th>
-                                        <th style="width:45%;">Bulan</th>
+                                        <th colspan="12">Bulan</th>
+                                        <th rowspan="2" class="align-middle text-center">Total</th>
+                                    </tr>
+                                    <tr>
+                                        @foreach ($bulanList as $bulan)
+                                            <th>{{ $bulan }}</th>
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($bulanPemesanan as $key => $bulan)
-                                        <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>Pemesanan {{ $key + 1 }}</td>
-                                            <td>{{ ucfirst($bulan) }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="3">Tidak ada frekuensi pemesanan yang dihitung</td>
-                                        </tr>
-                                    @endforelse
+                                    <tr>
+                                        @foreach ($bulanPemesanan as $jumlah)
+                                            <td>{{ $jumlah }}</td>
+                                        @endforeach
+                                        <td>{{ $n }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
