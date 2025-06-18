@@ -38,6 +38,7 @@
                                 <th width="20%">Email</th>
                                 <th width="20%">Alamat</th>
                                 <th width="10%">Telepon</th>
+                                <th width="10%">Role</th>
                                 <th width="10%">Aksi</th>
                             </tr>
                         </thead>
@@ -46,10 +47,11 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $item->profile->id_akun ?? '-' }}</td>
-                                    <td>{{ $item->name }}</td>
+                                    <td>{{ ucwords($item->name) }}</td>
                                     <td>{{ $item->email }}</td>
-                                    <td>{{ $item->profile->alamat ?? '-' }}</td>
+                                    <td>{{ ucfirst($item->profile->alamat ?? '-') }}</td>
                                     <td>{{ $item->profile->telepon ?? '-' }}</td>
+                                    <td>{{ ucwords($item->role) }}</td>
                                     <td class="text-center">
                                          <div class="d-flex gap-2 justify-content-center">
                                             <a href="{{ route('acount.edit', $item->id) }}"
