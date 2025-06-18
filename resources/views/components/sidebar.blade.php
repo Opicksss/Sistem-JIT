@@ -50,7 +50,7 @@
                @if ($isAdmin || in_array('transaksi_masuk', $allowedMenus))
                    <li>
                        <a href="{{ route('transaksi_masuk.index') }}">
-                           <div class="parent-icon"><i class="material-icons-outlined">input</i></div>
+                           <div class="parent-icon"><i class="bx bx-log-in bx-sm"></i></div>
                            <div class="menu-title">Transaksi Masuk</div>
                        </a>
                    </li>
@@ -58,7 +58,7 @@
                @if ($isAdmin || in_array('transaksi_keluar', $allowedMenus))
                    <li>
                        <a href="{{ route('transaksi_keluar.index') }}">
-                           <div class="parent-icon"><i class="material-icons-outlined">output</i></div>
+                           <div class="parent-icon"><i class="bx bx-log-out bx-sm"></i></div>
                            <div class="menu-title">Transaksi Keluar</div>
                        </a>
                    </li>
