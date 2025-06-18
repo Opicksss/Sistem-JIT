@@ -87,6 +87,7 @@ class AcountController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $user->id,
+                'role' => 'required|string',
                 'password' => 'nullable|confirmed|min:8',
                 'menu_ids' => 'array|nullable',
                 'id_akun' => 'required|string|max:255',

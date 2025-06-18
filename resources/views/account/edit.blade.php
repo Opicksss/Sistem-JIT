@@ -76,6 +76,14 @@
                             @endforeach
                         </div>
                     </div>
+                    <div class="col-12 col-lg-6">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role"
+                            required>
+                            <option value="pegawai" {{ $user->role == 'pegawai' ? 'selected' : '' }}>Pegawai</option>
+                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                        </select>
+                    </div>
                     <div class="col-md-12">
                         <div class="d-flex justify-content-end align-items-center gap-3">
                             <button type="submit" class="btn btn-grd-primary px-4 text-white">Update</button>
