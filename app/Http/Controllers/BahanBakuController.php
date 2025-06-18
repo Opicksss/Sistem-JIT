@@ -11,7 +11,9 @@ class BahanBakuController extends Controller
 
     public function index()
     {
+        // variabel = model
         $bahanBakus = BahanBaku::all();
+                    // tampilan view
         return view('material.index', compact('bahanBakus'));
     }
 
@@ -36,6 +38,7 @@ class BahanBakuController extends Controller
             ]);
             // dd($validated);
 
+            //menyimpan gambar ke storage
             if ($request->hasFile('gambar')) {
                 $gambar = $request->file('gambar')->store('gambar_bahan', 'public');
                 $validated['gambar'] =  $gambar;
@@ -72,9 +75,11 @@ class BahanBakuController extends Controller
             $bahanBaku = BahanBaku::findOrFail($id);
 
             if ($request->hasFile('gambar')) {
+                // hapus gambar lama jika ada
                 if ($bahanBaku->gambar && Storage::disk('public')->exists($bahanBaku->gambar)) {
                     Storage::disk('public')->delete($bahanBaku->gambar);
                 }
+                // simpan gambar baru
                 $gambarBaru = $request->file('gambar')->store('gambar_bahan', 'public');
                 $validated['gambar'] = $gambarBaru;
             }

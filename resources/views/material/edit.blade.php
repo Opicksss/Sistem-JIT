@@ -47,7 +47,6 @@
                         <select id="satuan" name="satuan" class="form-select" required>
                             <option disabled>Pilih Satuan...</option>
                             <option value="Kg" {{ $bahanBaku->satuan == 'Kg' ? 'selected' : '' }}>Kg</option>
-                           
                         </select>
                     </div>
 

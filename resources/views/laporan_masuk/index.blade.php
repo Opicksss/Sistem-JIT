@@ -32,13 +32,15 @@
                                     <td>{{ $item->penerima }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->tanggal_masuk)->locale('id')->format('d M Y') }}</td>
                                     <td class="text-center">
-                                         <div class="d-flex gap-2 justify-content-center">
+                                        <div class="d-flex gap-2 justify-content-center">
                                             <a href="{{ route('detail_laporan_masuk.show', $item->id) }}"
-                                                class="btn btn-sm btn-info">
-                                                <i class="bx bx-show"></i> 
+                                                class="btn btn-sm btn-primary">
+                                                Detail
                                             </a>
                                         </div>
                                     </td>
+
+                                    
                                 </tr>
                             @endforeach
                         </tbody>

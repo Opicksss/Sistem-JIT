@@ -11,15 +11,15 @@ class BahanBaku extends Model
 
     protected $fillable = [
         'id_bahan_baku',
+        'nama',
         'jenis',
         'gambar',
-        'nama',
         'satuan',
         'harga',
         'stok'
     ];
 
-    
+
     public function transaksiMasuks()
     {
         return $this->hasMany(TransaksiMasuk::class);
@@ -36,7 +36,7 @@ class BahanBaku extends Model
     }
 
 
-    
+
     public function tambahStok($jumlah)
     {
         if ($jumlah <= 0) {
@@ -44,7 +44,7 @@ class BahanBaku extends Model
         }
 
         $this->increment('stok', $jumlah);
-        $this->save(); 
+        $this->save();
         return true;
     }
 
@@ -53,19 +53,19 @@ class BahanBaku extends Model
         if ($jumlah <= 0) {
             throw new \Exception('Jumlah pengurangan stok harus lebih dari 0');
         }
- 
+
         $this->refresh();
 
         if ($this->stok >= $jumlah) {
             $this->decrement('stok', $jumlah);
-            $this->save(); 
+            $this->save();
             return true;
         }
 
         return false;
     }
 
-    
+
     public function getStokTerbaru()
     {
         return $this->fresh()->stok;
