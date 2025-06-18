@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::middleware('menuAkses:bahanBaku')->group(function () {
+    Route::middleware('menuAkses:bahan_baku')->group(function () {
         Route::get('bahanBaku', [BahanBakuController::class, 'index'])->name('bahanBaku.index');
         Route::get('bahanBakuCreate', [BahanBakuController::class, 'create'])->name('bahanBaku.create');
         Route::post('bahanBaku', [BahanBakuController::class, 'store'])->name('bahanBaku.store');

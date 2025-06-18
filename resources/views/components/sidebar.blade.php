@@ -31,7 +31,7 @@
                    </a>
                </li>
 
-               @if ($isAdmin || in_array('bahanBaku', $allowedMenus))
+               @if ($isAdmin || in_array('bahan_baku', $allowedMenus))
                    <li>
                        <a href="{{ route('bahanBaku.index') }}">
                            <div class="parent-icon"><i class="material-icons-outlined">inventory</i></div>

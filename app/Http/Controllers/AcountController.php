@@ -39,6 +39,7 @@ class AcountController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:users,email',
+                'role' => 'required|string',
                 'password' => 'required|confirmed|min:8',
                 'menu_ids' => 'array|nullable',
                 'id_akun' => 'required|string|max:255',
@@ -50,7 +51,7 @@ class AcountController extends Controller
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
-                'role' => 'pegawai',
+                'role' => $validatedData['role'],
             ]);
 
             // Simpan data profil
