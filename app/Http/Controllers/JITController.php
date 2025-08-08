@@ -23,9 +23,9 @@ class JITController extends Controller
         $totalBiayaPenyimpanan = TransaksiKeluar::where('bahan_baku_id', $bahanBakuId)->whereYear('tanggal_keluar', $tahun)->sum('biaya_penyimpanan');
 
         $jumlahPemesanan = TransaksiMasuk::where('bahan_baku_id', $bahanBakuId)->whereYear('tanggal_masuk', $tahun)->count();
-       
+
         $D = TransaksiKeluar::where('bahan_baku_id', $bahanBakuId)->whereYear('tanggal_keluar', $tahun)->sum('stok');
-        
+
 
         $O = $jumlahPemesanan > 0 ? $totalBiayaPemesanan / $jumlahPemesanan : 0;
 
@@ -38,17 +38,31 @@ class JITController extends Controller
 
         $a = TransaksiKeluar::where('bahan_baku_id', $bahanBakuId)->whereYear('tanggal_keluar', $tahun)->avg('sisa');
 
-        $na = $Q > 0 && $a > 0 ? ceil(pow($Q / (2 * $a), 2) ) : 0; // 4,7
+        $na = $Q > 0 && $a > 0 ? ceil(pow($Q / (2 * $a), 2)) : 0; // 4,7
 
-        $Qn = $na > 0 ? round(sqrt($na) * $Q, 2) : 0;
+        // $Qtesting = $testing * $Q;
+        // dd([
+        //     '$Q' => $Q,
+        //     '$na' => $na,
+        //     '$akar na' => $testing,
+        //     '$Qtesting' => $Qtesting
+        // ]);
+
+        // $Qn = $na > 0 ? round(sqrt($na) * $Q, 2) : 0;
 
         // $Qn = $na > 0 ? floor(sqrt($na) * $Q * 100) / 100 : 0;
+
+        $akarNa = sqrt($na);
+        $akarNaTigaAngka = floor($akarNa * 1000) / 1000;
+        $Qn = floor($akarNaTigaAngka * $Q * 100) / 100;
+
+
         $q = $na > 0 ? $Qn / $na : 0;
 
         $n = $D > 0 ? floor($Qn / $D) : 0; // 4,7 = 4
 
         $TIJ = $n > 0 && $T !== null ? round((1 / sqrt($n)) * $T, 2) : null;
-        
+
         $totalBiaya = $totalBiayaPemesanan + $totalBiayaPenyimpanan;
 
         $bulanList = [
@@ -68,16 +82,36 @@ class JITController extends Controller
 
         $bulanPemesanan = array_fill(1, 12, 0);
 
-       for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < $n; $i++) {
             $bulanKe = round($i * (12 / $n) + 1);
             if ($bulanKe > 12) {
                 $bulanKe = 12;
             }
             $bulanPemesanan[$bulanKe] = 1;
-        } 
+        }
 
         $tahunList = TransaksiKeluar::selectRaw('YEAR(tanggal_keluar) as tahun')->distinct()->pluck('tahun')->toArray();
 
-        return view('hasil.index', compact('D', 'Q', 'na', 'a', 'Qn', 'q', 'n', 'TIJ', 'totalBiaya', 'bulanList', 'bahanBaku', 'jumlahPemesanan', 'tahun', 'tahunList', 'bahanBakuList', 'bulanPemesanan'));
+        $penghematan1 = $Q != 0 ? ($D / $D) : 0;
+        // dd($penghematan1);
+        $frekuensi1 = $penghematan1 * 100;
+
+        $penghematan2 = $Q - $Qn;
+        // dd($penghematan2);
+        $frekuensi2 = $Q != 0 ? ($penghematan2 / $Q) * 100 : 0;
+
+        $penghematan3 = $jumlahPemesanan - $n;
+        $frekuensi3 = $jumlahPemesanan != 0 ? ($penghematan3 / $jumlahPemesanan) * 100 : 0;
+
+        $penghematan4 = $D - $q;
+        $frekuensi4 = $D != 0 ? ($penghematan4 / $D) * 100 : 0;
+
+        $penghematan5 = 1 - $na;
+        $frekuensi5 = ($penghematan5 / 1) * 100;
+
+        $penghematan6 = $totalBiaya - $TIJ;
+        $frekuensi6 = $totalBiaya != 0 ? ($penghematan6 / $totalBiaya) * 100 : 0;
+
+        return view('hasil.index', compact('D', 'Q', 'na', 'a', 'Qn', 'q', 'n', 'TIJ', 'totalBiaya', 'bulanList', 'bahanBaku', 'jumlahPemesanan', 'tahun', 'tahunList', 'bahanBakuList', 'bulanPemesanan', 'frekuensi1', 'frekuensi2', 'frekuensi3', 'frekuensi4', 'frekuensi5', 'frekuensi6'));
     }
 }

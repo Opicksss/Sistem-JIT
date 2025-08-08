@@ -104,6 +104,7 @@
                                         <th style="width:35%;">Keterangan</th>
                                         <th style="width:30%;">Kondisi Aktual</th>
                                         <th style="width:30%;"><em>Metode Just In Time</em></th>
+                                        <th style="width:30%;"><em>Efisiensi Presentase</em></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,36 +113,43 @@
                                         <td>Kebutuhan bahan baku periode {{ $tahun }} </td>
                                         <td>{{ $D }} Kg</td>
                                         <td>{{ $D }} Kg</td>
+                                        <td>{{ $frekuensi1 }}%</td>
                                     </tr>
                                     <tr>
                                         <td>2.</td>
                                         <td>Kuantitas pemesanan yang optimal</td>
-                                        <td>{{ number_format($Q, 3, ',', '.') }} Kg</td>
-                                        <td>{{ number_format($Qn, 2, ',', '.') }} Kg</td>
+                                        <td>{{ number_format($Q, 3, ',', '.') }} Kg</td> 
+                                        <td>{{ number_format($Qn, 2, ',', '.') }} Kg</td> 
+                                       <td>{{ $frekuensi2 < 0 ? ' ' : number_format($frekuensi2, 2, ',', '.') . '%' }}</td>
+
                                     </tr>
                                     <tr>
                                         <td>3.</td>
-                                        <td>Frekuensi pemesanan per tahun periode 2024</td>
+                                        <td>Frekuensi pemesanan per tahun periode {{ $tahun }}</td>
                                         <td>{{ $jumlahPemesanan ?? '-' }} Kali</td>
                                         <td>{{ $n }} Kali</td>
+                                        <td>{{ $frekuensi3 < 0 ? ' ' : number_format($frekuensi3, 2, ',', '.') . '%' }}</td>
                                     </tr>
                                     <tr>
                                         <td>4.</td>
                                         <td>Jumlah pengiriman yang optimal setiap kali pesan</td>
                                         <td>{{ $D }} Kg</td>
                                         <td>{{ number_format($q, 3, ',', '.') }} Kg</td>
+                                        <td>{{ $frekuensi4 < 0 ? ' ' : number_format($frekuensi4, 2, ',', '.') . '%' }}</td>
                                     </tr>
                                     <tr>
                                         <td>5.</td>
                                         <td>Frekuensi pengiriman per pesan</td>
                                         <td>1 kali</td>
                                         <td>{{ $na }} Kali</td>
+                                        <td>{{ $frekuensi5 < 0 ? ' ' : number_format($frekuensi5, 2, ',', '.') . '%' }}</td>
                                     </tr>
                                     <tr>
                                         <td>6.</td>
                                         <td>Total biaya persediaan periode {{ $tahun }}</td>
                                         <td>Rp. {{ number_format($totalBiaya, 0, ',', '.') }}</td>
                                         <td>Rp. {{ number_format($TIJ, 0, ',', '.') }}</td>
+                                        <td>{{ $frekuensi6 < 0 ? ' ' : number_format($frekuensi6, 2, ',', '.') . '%' }}</td>
                                     </tr>
                                 </tbody>
                             </table>
