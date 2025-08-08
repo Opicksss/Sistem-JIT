@@ -91,6 +91,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('grafik_transaksi_keluar', [GrafikController::class, 'keluar'])->name('grafik.keluar');
     });
 
+    Route::middleware('menuAkses:grafik_transaksi')->group(function () {
+        Route::get('grafik_transaksi', [GrafikController::class, 'index'])->name('grafik.index');
+    });
+
      Route::middleware('menuAkses:hasil')->group(function () {
        Route::get('hasil', [JITController::class, 'index'])->name('hasil.index');
     });

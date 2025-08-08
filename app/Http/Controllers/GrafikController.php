@@ -51,4 +51,52 @@ class GrafikController extends Controller
 
         return view('grafik.keluar', compact('tahunList', 'tahunTerpilih', 'dataStok', 'namaBulan'));
     }
+
+    public function index(Request $request)
+    {
+        // Gabungkan tahun dari kedua tabel
+        $tahunMasuk = TransaksiMasuk::selectRaw('YEAR(tanggal_masuk) as tahun')->distinct()->pluck('tahun')->toArray();
+        $tahunKeluar = TransaksiKeluar::selectRaw('YEAR(tanggal_keluar) as tahun')->distinct()->pluck('tahun')->toArray();
+        sort($tahunMasuk);
+        sort($tahunKeluar);
+
+        // Tahun terpilih dari URL (atau default ke tahun sekarang)
+        $tahunMasukTerpilih = $request->get('tahun_masuk', date('Y'));
+        $tahunKeluarTerpilih = $request->get('tahun_keluar', date('Y'));
+
+        // Data masuk per bulan
+        $stokMasukPerBulan = TransaksiMasuk::selectRaw('MONTH(tanggal_masuk) as bulan, SUM(stok) as total_stok')
+            ->whereYear('tanggal_masuk', $tahunMasukTerpilih)
+            ->groupByRaw('MONTH(tanggal_masuk)')
+            ->pluck('total_stok', 'bulan')
+            ->toArray();
+
+        // Data keluar per bulan
+        $stokKeluarPerBulan = TransaksiKeluar::selectRaw('MONTH(tanggal_keluar) as bulan, SUM(stok) as total_stok')
+            ->whereYear('tanggal_keluar', $tahunKeluarTerpilih)
+            ->groupByRaw('MONTH(tanggal_keluar)')
+            ->pluck('total_stok', 'bulan')
+            ->toArray();
+
+        // Isi data lengkap 12 bulan (kosongkan jika tidak ada)
+        $dataMasuk = [];
+        $dataKeluar = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $dataMasuk[] = $stokMasukPerBulan[$i] ?? 0;
+            $dataKeluar[] = $stokKeluarPerBulan[$i] ?? 0;
+        }
+
+        // Nama bulan dalam Bahasa Indonesia
+        $namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        return view('grafik.index', [
+            'tahunMasukList' => $tahunMasuk,
+            'tahunKeluarList' => $tahunKeluar,
+            'tahunMasukTerpilih' => $tahunMasukTerpilih,
+            'tahunKeluarTerpilih' => $tahunKeluarTerpilih,
+            'dataMasuk' => $dataMasuk,
+            'dataKeluar' => $dataKeluar,
+            'namaBulan' => $namaBulan,
+        ]);
+    }
 }

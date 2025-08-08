@@ -81,7 +81,7 @@
                @endif
                @if ($isAdmin || in_array('grafik_transaksi_masuk', $allowedMenus))
                    <li>
-                       <a href="{{route('grafik.masuk')}}">
+                       <a href="{{ route('grafik.masuk') }}">
                            <div class="parent-icon"><i class="material-icons-outlined">trending_up</i></div>
                            <div class="menu-title">Grafik Transaksi Masuk</div>
                        </a>
@@ -89,15 +89,23 @@
                @endif
                @if ($isAdmin || in_array('grafik_transaksi_keluar', $allowedMenus))
                    <li>
-                       <a href="{{route('grafik.keluar')}}">
+                       <a href="{{ route('grafik.keluar') }}">
                            <div class="parent-icon"><i class="material-icons-outlined">trending_down</i></div>
                            <div class="menu-title">Grafik Transaksi Keluar</div>
                        </a>
                    </li>
                @endif
+               @if ($isAdmin || in_array('grafik_transaksi', $allowedMenus))
+                   <li>
+                       <a href="{{ route('grafik.index') }}">
+                           <div class="parent-icon"><i class="material-icons-outlined">insert_chart</i></div>
+                           <div class="menu-title">Grafik Transaksi</div>
+                       </a>
+                   </li>
+               @endif
                @if ($isAdmin)
                    <li>
-                       <a href="{{route('hasil.index')}}">
+                       <a href="{{ route('hasil.index') }}">
                            <div class="parent-icon"><i class="material-icons-outlined">calculate</i></div>
                            <div class="menu-title">Hasil Perhitungan</div>
                        </a>
