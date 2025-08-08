@@ -89,6 +89,7 @@
                                 <th width="10%" class="text-center">ID Bahan Baku</th>
                                 <th width="20%">Bahan Baku</th>
                                 <th width="10%" class="text-end">Stok keluar</th>
+                                <th width="10%" class="text-end">Harga</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,12 +98,14 @@
                                 <td class="text-center">{{ $transaksiKeluar->bahanBaku->id_bahan_baku }}</td>
                                 <td>{{ $transaksiKeluar->bahanBaku->nama }}</td>
                                 <td class="text-end">{{ $transaksiKeluar->stok }}</td>
+                                <td class="text-end">{{ number_format($transaksiKeluar->stok * $transaksiKeluar->bahanBaku->harga, 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="3" class="text-end">Total Stok keluar</th>
                                 <th class="text-end">{{ $transaksiKeluar->stok }}</th>
+                                <th class="text-end">{{ number_format($transaksiKeluar->stok * $transaksiKeluar->bahanBaku->harga, 0, ',', '.') }}</th>
                             </tr>
                         </tfoot>
                     </table>

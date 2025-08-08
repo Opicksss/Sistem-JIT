@@ -26,10 +26,11 @@
                     </a>
                 </div>
             </div>
+            
 
             <div class="card-body" enctype="multipart/form-data">
                 <div class="table-responsive">
-                    <table id="example2" class="table table-striped table-hover table-bordered">
+                    <table id="example2" class="table table-striped table-hover table-bordered" style="background-color: aqua">
                         <thead class="table-light">
                             <tr>
                                 <th width="5%">No</th>

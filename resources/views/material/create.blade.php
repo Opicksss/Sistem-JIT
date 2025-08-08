@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="col-12">
-        <div class="card">
+        <div class="card" style="background-color: aqua">
             <div class="card-body p-4">
                 <h5 class="mb-4">Form Tambah Bahan Baku</h5>
                 <form class="row g-3" action="{{ route('bahanBaku.store') }}" method="POST"

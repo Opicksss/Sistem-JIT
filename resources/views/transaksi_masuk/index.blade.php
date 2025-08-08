@@ -38,6 +38,7 @@
                                 <th width="10%">Suplier</th>
                                 <th width="10%">Bahan Baku</th>
                                 <th width="10%">Stok Masuk</th>
+                                <th width= "10%"> Harga</th>
                                 <th width="10%">Tanggal</th>
 
                             </tr>
@@ -51,6 +52,7 @@
                                     <td>{{ $item->suplier->nama }}</td>
                                     <td>{{ $item->bahanBaku->nama }}</td>
                                     <td class="text-end">{{ $item->stok }}</td>
+                                    <td class="text-end">{{ number_format($item->stok * $item->bahanBaku->harga, 0, ',', '.') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->tanggal_masuk)->locale('id')->format('d M Y') }}</td>
                                 </tr>
                             @endforeach

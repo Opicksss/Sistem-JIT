@@ -57,7 +57,7 @@
                 <!-- Form Item Transaksi -->
                 <h6 class="mb-3">Tambah Item Transaksi</h6>
                 <form id="form-item" class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="suplier_id" class="form-label">Nama Suplier *</label>
                         <select class="form-control" id="suplier_id" name="suplier_id" required>
                             <option value="">-- Pilih Suplier --</option>
@@ -66,26 +66,36 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="bahan_baku_id" class="form-label">Nama Bahan Baku *</label>
                         <select class="form-control" id="bahan_baku_id" name="bahan_baku_id" required>
                             <option value="">-- Pilih Bahan Baku --</option>
                             @foreach ($bahan_bakus as $bahan_baku)
-                                <option value="{{ $bahan_baku->id }}" data-nama="{{ $bahan_baku->nama }}"
-                                    data-id-bahan="{{ $bahan_baku->id_bahan_baku }}">
+                                <option value="{{ $bahan_baku->id }}" 
+                                    data-nama="{{ $bahan_baku->nama }}"
+                                    data-id-bahan="{{ $bahan_baku->id_bahan_baku }}"
+                                    data-harga="{{ $bahan_baku->harga }}"
+                                    data-satuan="{{ $bahan_baku->satuan }}">
                                     {{ $bahan_baku->nama }} ({{ $bahan_baku->satuan }})
                                 </option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label for="stok" class="form-label">Stok Masuk *</label>
-                        <input type="number" step="0.001" class="form-control" id="stok" name="stok"
-                            required>
+                    <div class="col-md-2">
+                        <label for="harga_satuan" class="form-label">Harga Satuan</label>
+                        <input type="text" class="form-control" id="harga_satuan" name="harga_satuan" readonly>
                     </div>
-                    <div class="col-md-1 d-flex align-items-end">
-                        <button type="button" id="btn-tambah-item" class="btn btn-primary w-100">
-                            <i class="bx bx-plus"></i>
+                    <div class="col-md-2">
+                        <label for="stok" class="form-label">Stok Masuk *</label>
+                        <input type="number" step="0.001" class="form-control" id="stok" name="stok" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="subtotal" class="form-label">Subtotal</label>
+                        <input type="text" class="form-control" id="subtotal" name="subtotal" readonly>
+                    </div>
+                    <div class="col-md-12 d-flex justify-content-end">
+                        <button type="button" id="btn-tambah-item" class="btn btn-primary">
+                            <i class="bx bx-plus"></i> Tambah Item
                         </button>
                     </div>
                 </form>
@@ -112,16 +122,33 @@
                             <th>ID Bahan Baku</th>
                             <th>Nama Bahan Baku</th>
                             <th>Suplier</th>
+                            <th>Harga Satuan</th>
                             <th>Stok Masuk</th>
+                            <th>Subtotal</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr id="empty-row">
-                            <td colspan="6" class="text-center text-muted">Belum ada item yang ditambahkan</td>
+                            <td colspan="8" class="text-center text-muted">Belum ada item yang ditambahkan</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- Total Keseluruhan -->
+                <div class="row mt-3">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <strong>Total Biaya Pemesanan:</strong>
+                                    <strong id="total-biaya">Rp 0</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -134,6 +161,43 @@
     <script>
         let itemsData = [];
         let itemCounter = 0;
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Update harga dan subtotal ketika bahan baku dipilih
+        document.getElementById('bahan_baku_id').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const harga = selectedOption.getAttribute('data-harga');
+            const hargaSatuanInput = document.getElementById('harga_satuan');
+            
+            if (harga) {
+                hargaSatuanInput.value = formatCurrency(parseFloat(harga));
+                updateSubtotal();
+            } else {
+                hargaSatuanInput.value = '';
+                document.getElementById('subtotal').value = '';
+            }
+        });
+
+        // Update subtotal ketika stok berubah
+        document.getElementById('stok').addEventListener('input', updateSubtotal);
+
+        function updateSubtotal() {
+            const selectedOption = document.querySelector('#bahan_baku_id option:checked');
+            const harga = selectedOption ? parseFloat(selectedOption.getAttribute('data-harga')) : 0;
+            const stok = parseFloat(document.getElementById('stok').value) || 0;
+            const subtotal = harga * stok;
+            
+            document.getElementById('subtotal').value = subtotal > 0 ? formatCurrency(subtotal) : '';
+        }
 
         // Tambah item ke tabel sementara
         document.getElementById('btn-tambah-item').addEventListener('click', function() {
@@ -160,6 +224,8 @@
             const suplierNama = suplierOption.textContent;
             const bahanBakuNama = bahanBakuOption.getAttribute('data-nama');
             const idBahanBaku = bahanBakuOption.getAttribute('data-id-bahan');
+            const harga = parseFloat(bahanBakuOption.getAttribute('data-harga'));
+            const satuan = bahanBakuOption.getAttribute('data-satuan');
 
             // Cek duplikasi item
             const isDuplicate = itemsData.some(item =>
@@ -180,7 +246,10 @@
                 suplier_nama: suplierNama,
                 bahan_baku_nama: bahanBakuNama,
                 id_bahan_baku: idBahanBaku,
-                stok: parseFloat(stok)
+                harga: harga,
+                satuan: satuan,
+                stok: parseFloat(stok),
+                subtotal: harga * parseFloat(stok)
             };
             itemsData.push(newItem);
 
@@ -189,9 +258,14 @@
 
             // Reset form item
             formItem.reset();
+            document.getElementById('harga_satuan').value = '';
+            document.getElementById('subtotal').value = '';
 
             // Enable tombol simpan
             document.getElementById('btn-simpan-transaksi').disabled = false;
+
+            // Update total
+            updateTotalBiaya();
         });
 
         // Update tabel sementara
@@ -200,7 +274,7 @@
 
             if (itemsData.length === 0) {
                 tbody.innerHTML =
-                    '<tr id="empty-row"><td colspan="6" class="text-center text-muted">Belum ada item yang ditambahkan</td></tr>';
+                    '<tr id="empty-row"><td colspan="8" class="text-center text-muted">Belum ada item yang ditambahkan</td></tr>';
                 document.getElementById('btn-simpan-transaksi').disabled = true;
                 return;
             }
@@ -211,9 +285,10 @@
                     <tr>
                         <td>${index + 1}</td>
                         <td>${item.id_bahan_baku}</td>
-                        <td>${item.bahan_baku_nama}</td>
+                        <td>${item.bahan_baku_nama} (${item.satuan})</td>
                         <td>${item.suplier_nama}</td>
-                        <td style="width: 250px;">
+                        <td>${formatCurrency(item.harga)}</td>
+                        <td style="width: 120px;">
                             <input type="number" 
                                    class="form-control form-control-sm stok-input" 
                                    value="${item.stok}" 
@@ -222,8 +297,9 @@
                                    data-item-id="${item.id}"
                                    onchange="updateStokItem(${item.id}, this.value)">
                         </td>
+                        <td class="text-end">${formatCurrency(item.subtotal)}</td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-danger " onclick="hapusItem(${item.id})">
+                            <button type="button" class="btn btn-sm btn-danger" onclick="hapusItem(${item.id})">
                                 <i class="bx bx-trash"></i>
                             </button>
                         </td>
@@ -252,7 +328,18 @@
             const itemIndex = itemsData.findIndex(item => item.id === itemId);
             if (itemIndex !== -1) {
                 itemsData[itemIndex].stok = parseFloat(newStok);
+                itemsData[itemIndex].subtotal = itemsData[itemIndex].harga * parseFloat(newStok);
+                
+                // Update tampilan tabel
+                updateTableSementara();
+                updateTotalBiaya();
             }
+        }
+
+        // Update total biaya
+        function updateTotalBiaya() {
+            const total = itemsData.reduce((sum, item) => sum + item.subtotal, 0);
+            document.getElementById('total-biaya').textContent = formatCurrency(total);
         }
 
         // Hapus item dari tabel
@@ -260,6 +347,7 @@
             if (confirm('Yakin ingin menghapus item ini?')) {
                 itemsData = itemsData.filter(item => item.id !== itemId);
                 updateTableSementara();
+                updateTotalBiaya();
             }
         }
 

@@ -22,6 +22,7 @@
                                 <th width="10%">Stok masuk</th>
                                 <th width="10%">Stok keluar</th>
                                 <th width="10%">Sisa</th>
+                                <th width="10%">Harga</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,6 +31,7 @@
                             <td>{{ $transaksiKeluar->stok_awal }}</td>
                             <td>{{ $transaksiKeluar->stok }}</td>
                             <td>{{ $transaksiKeluar->sisa }}</td>
+                            <td class="text-end">{{ number_format($transaksiKeluar->sisa * $transaksiKeluar->bahanBaku->harga, 0, ',', '.') }}</td>
                         </tbody>
                     </table>
                 </div>

@@ -5,7 +5,8 @@
 <!-- Mirrored from codervent.com/maxton/demo/vertical-menu/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 05 Jul 2024 04:30:13 GMT -->
 
 <head>
-    <meta charset="utf-8">
+    
+</head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name') }} | {{ $title }}</title>
     <!--favicon-->
@@ -41,7 +42,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 
-</head>
 
 <body>
 
