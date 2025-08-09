@@ -120,7 +120,7 @@
                                         <td>Kuantitas pemesanan yang optimal</td>
                                         <td>{{ number_format($Q, 3, ',', '.') }} Kg</td> 
                                         <td>{{ number_format($Qn, 2, ',', '.') }} Kg</td> 
-                                       <td>{{ $frekuensi2 < 0 ? ' ' : number_format($frekuensi2, 2, ',', '.') . '%' }}</td>
+                                       <td>{{ $frekuensi2 < 0 ? '' : number_format($frekuensi2, 2, ',', '.') . '%' }}</td>
 
                                     </tr>
                                     <tr>
