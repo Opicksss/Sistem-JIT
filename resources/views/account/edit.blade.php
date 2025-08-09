@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-12 col-lg-6">
                         <label for="alamat" class="form-label">Alamat</label>
-                        <textarea class="form-control" id="alamat" name="alamat" rows="4" required>{{old('alamat', $user->profile->alamat ?? '' )}}</textarea>
+                        <textarea class="form-control" id="alamat" name="alamat" rows="6" required>{{old('alamat', $user->profile->alamat ?? '' )}}</textarea>
                     </div>
                     <div class="col-12 col-lg-6">
                         <label for="provinsi" class="form-label">Menu</label>

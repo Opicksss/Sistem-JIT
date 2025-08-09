@@ -22,6 +22,7 @@ class MenuSeeder extends Seeder
             ['name' => 'laporan_keluar', 'label' => 'Laporan Keluar'],
             ['name' => 'grafik_transaksi_masuk', 'label' => 'Grafik Transaksi Masuk'],
             ['name' => 'grafik_transaksi_keluar', 'label' => 'Grafik Transaksi Keluar'],
+            ['name' => 'grafik_transaksi', 'label' => 'Grafik Transaksi'],
         ]);
     }
 }
